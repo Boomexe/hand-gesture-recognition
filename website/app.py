@@ -17,7 +17,7 @@ data_cache = deque(maxlen=186)
 app = flask.Flask(__name__)
 socketio = SocketIO(app, cors_allowed_origins="*")
 
-model = load_model("hand_gesture_modelv6.keras")
+model = load_model("models/hand_gesture_modelv6.keras")
 words = json.load(open("word_mapping.json", "r"))
 length_of_gesture = 7150-2
 threshold = 0.8
@@ -111,8 +111,8 @@ def upload_video():
         return {"message": "No video file uploaded"}, 400
     
     video_file = flask.request.files['video']
-    video_file.save("uploaded_video.mp4")
-    process_video("uploaded_video.mp4")
+    video_file.save("uploads/uploaded_video.mp4")
+    process_video("uploads/uploaded_video.mp4")
     
     
     
@@ -200,11 +200,11 @@ def process_video(video_path):
                     if num_hands == 1 and current_handedness == 0:
                         gesture_data = pd.concat([gesture_data, pd.DataFrame([extra_nodes], columns=landmark_columns)])
                         
-        gesture_data.to_csv(f"processed_landmarks.csv", index=False)
+        gesture_data.to_csv(f"uploads/processed_landmarks.csv", index=False)
         
         out_df = pd.DataFrame()
 
-    df = pd.read_csv("processed_landmarks.csv")
+    df = pd.read_csv("uploads/processed_landmarks.csv")
     
     max_length = 186
     
@@ -224,13 +224,13 @@ def process_video(video_path):
     out_df = pd.concat([out_df, new_df], ignore_index=True)
     
     
-    out_df.to_csv("final.csv", index=False)
+    out_df.to_csv("uploads/final.csv", index=False)
     pred = predict()
     print(pred)
     print(np.argmax(pred, axis=1)[0])
     
 def predict():
-    df = pd.read_csv("final.csv")
+    df = pd.read_csv("uploads/final.csv")
     
     X_test = df.loc[:, ~df.columns.str.contains("frame_index|hand_index")].iloc[:, 1:].to_numpy(dtype=np.float32)
 
