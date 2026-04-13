@@ -1,0 +1,337 @@
+[
+  {
+    "gesture": "Don't Want",
+    "timestamp_start": "00:01:26.540",
+    "timestamp_end": "00:01:29.800"
+  },
+  {
+    "gesture": "Don't Want",
+    "timestamp_start": "00:01:31.900",
+    "timestamp_end": "00:01:34.900"
+  },
+  {
+    "gesture": "Finish or Done",
+    "timestamp_start": "00:01:35.560",
+    "timestamp_end": "00:01:38.280"
+  },
+  {
+    "gesture": "Finish or Done",
+    "timestamp_start": "00:01:39.520",
+    "timestamp_end": "00:01:42.240"
+  },
+  {
+    "gesture": "Forget",
+    "timestamp_start": "00:01:43.140",
+    "timestamp_end": "00:01:45.340"
+  },
+  {
+    "gesture": "Forget",
+    "timestamp_start": "00:01:45.890",
+    "timestamp_end": "00:01:50.000"
+  },
+  {
+    "gesture": "Go",
+    "timestamp_start": "00:01:51.270",
+    "timestamp_end": "00:01:53.070"
+  },
+  {
+    "gesture": "Go",
+    "timestamp_start": "00:01:53.640",
+    "timestamp_end": "00:01:59.040"
+  },
+  {
+    "gesture": "Hello",
+    "timestamp_start": "00:02:00.270",
+    "timestamp_end": "00:02:02.320"
+  },
+  {
+    "gesture": "Hello",
+    "timestamp_start": "00:02:02.890",
+    "timestamp_end": "00:02:07.500"
+  },
+  {
+    "gesture": "Help",
+    "timestamp_start": "00:02:09.110",
+    "timestamp_end": "00:02:11.750"
+  },
+  {
+    "gesture": "Help",
+    "timestamp_start": "00:02:12.180",
+    "timestamp_end": "00:02:20.900"
+  },
+  {
+    "gesture": "How are you?",
+    "timestamp_start": "00:02:22.040",
+    "timestamp_end": "00:02:25.560"
+  },
+  {
+    "gesture": "How are you?",
+    "timestamp_start": "00:02:25.820",
+    "timestamp_end": "00:02:36.000"
+  },
+  {
+    "gesture": "Like",
+    "timestamp_start": "00:02:37.030",
+    "timestamp_end": "00:02:39.430"
+  },
+  {
+    "gesture": "Like",
+    "timestamp_start": "00:02:39.990",
+    "timestamp_end": "00:02:45.860"
+  },
+  {
+    "gesture": "More",
+    "timestamp_start": "00:02:46.850",
+    "timestamp_end": "00:02:49.030"
+  },
+  {
+    "gesture": "More",
+    "timestamp_start": "00:02:49.440",
+    "timestamp_end": "00:02:53.790"
+  },
+  {
+    "gesture": "Need",
+    "timestamp_start": "00:02:54.600",
+    "timestamp_end": "00:02:57.180"
+  },
+  {
+    "gesture": "Need",
+    "timestamp_start": "00:02:57.650",
+    "timestamp_end": "00:03:01.890"
+  },
+  {
+    "gesture": "Nice to meet you",
+    "timestamp_start": "00:03:02.660",
+    "timestamp_end": "00:03:06.010"
+  },
+  {
+    "gesture": "Nice to meet you",
+    "timestamp_start": "00:03:06.630",
+    "timestamp_end": "00:03:14.930"
+  },
+  {
+    "gesture": "No",
+    "timestamp_start": "00:03:15.900",
+    "timestamp_end": "00:03:18.060"
+  },
+  {
+    "gesture": "No",
+    "timestamp_start": "00:03:18.570",
+    "timestamp_end": "00:03:23.940"
+  },
+  {
+    "gesture": "Not | Don't | Doesn't",
+    "timestamp_start": "00:03:24.770",
+    "timestamp_end": "00:03:27.210"
+  },
+  {
+    "gesture": "Not | Don't | Doesn't",
+    "timestamp_start": "00:03:27.760",
+    "timestamp_end": "00:03:34.400"
+  },
+  {
+    "gesture": "Please",
+    "timestamp_start": "00:03:35.340",
+    "timestamp_end": "00:03:37.490"
+  },
+  {
+    "gesture": "Please",
+    "timestamp_start": "00:03:37.980",
+    "timestamp_end": "00:03:42.500"
+  },
+  {
+    "gesture": "Right | Correct",
+    "timestamp_start": "00:03:43.510",
+    "timestamp_end": "00:03:46.060"
+  },
+  {
+    "gesture": "Right | Correct",
+    "timestamp_start": "00:03:46.460",
+    "timestamp_end": "00:03:50.000"
+  },
+  {
+    "gesture": "Thank You",
+    "timestamp_start": "00:03:51.100",
+    "timestamp_end": "00:03:53.070"
+  },
+  {
+    "gesture": "Thank You",
+    "timestamp_start": "00:03:53.480",
+    "timestamp_end": "00:03:57.380"
+  },
+  {
+    "gesture": "Want",
+    "timestamp_start": "00:03:58.330",
+    "timestamp_end": "00:04:00.320"
+  },
+  {
+    "gesture": "Want",
+    "timestamp_start": "00:04:00.700",
+    "timestamp_end": "00:04:06.900"
+  },
+  {
+    "gesture": "Wrong",
+    "timestamp_start": "00:04:08.060",
+    "timestamp_end": "00:04:10.020"
+  },
+  {
+    "gesture": "Wrong",
+    "timestamp_start": "00:04:10.510",
+    "timestamp_end": "00:04:15.110"
+  },
+  {
+    "gesture": "Yes",
+    "timestamp_start": "00:04:16.030",
+    "timestamp_end": "00:04:18.170"
+  },
+  {
+    "gesture": "Yes",
+    "timestamp_start": "00:04:18.570",
+    "timestamp_end": "00:04:23.000"
+  },
+  {
+    "gesture": "Scared",
+    "timestamp_start": "00:04:49.880",
+    "timestamp_end": "00:04:55.700"
+  },
+  {
+    "gesture": "Scared",
+    "timestamp_start": "00:04:56.570",
+    "timestamp_end": "00:05:01.370"
+  },
+  {
+    "gesture": "Scared",
+    "timestamp_start": "00:05:03.950",
+    "timestamp_end": "00:05:08.570"
+  },
+  {
+    "gesture": "Terrified",
+    "timestamp_start": "00:05:08.970",
+    "timestamp_end": "00:05:10.990"
+  },
+  {
+    "gesture": "Bad",
+    "timestamp_start": "00:05:14.070",
+    "timestamp_end": "00:05:16.120"
+  },
+  {
+    "gesture": "Bad",
+    "timestamp_start": "00:05:16.630",
+    "timestamp_end": "00:05:22.500"
+  },
+  {
+    "gesture": "Busy",
+    "timestamp_start": "00:05:23.270",
+    "timestamp_end": "00:05:26.570"
+  },
+  {
+    "gesture": "Busy",
+    "timestamp_start": "00:05:27.750",
+    "timestamp_end": "00:05:35.300"
+  },
+  {
+    "gesture": "Fine",
+    "timestamp_start": "00:05:36.250",
+    "timestamp_end": "00:05:38.290"
+  },
+  {
+    "gesture": "Fine",
+    "timestamp_start": "00:05:38.740",
+    "timestamp_end": "00:05:42.500"
+  },
+  {
+    "gesture": "Good or Well",
+    "timestamp_start": "00:05:43.900",
+    "timestamp_end": "00:05:46.400"
+  },
+  {
+    "gesture": "Good or Well",
+    "timestamp_start": "00:05:46.900",
+    "timestamp_end": "00:05:52.900"
+  },
+  {
+    "gesture": "Happy",
+    "timestamp_start": "00:05:54.040",
+    "timestamp_end": "00:05:56.270"
+  },
+  {
+    "gesture": "Happy",
+    "timestamp_start": "00:05:56.760",
+    "timestamp_end": "00:06:02.660"
+  },
+  {
+    "gesture": "Sad",
+    "timestamp_start": "00:06:03.660",
+    "timestamp_end": "00:06:06.130"
+  },
+  {
+    "gesture": "Sad",
+    "timestamp_start": "00:06:06.590",
+    "timestamp_end": "00:06:11.800"
+  },
+  {
+    "gesture": "Same",
+    "timestamp_start": "00:06:12.750",
+    "timestamp_end": "00:06:15.010"
+  },
+  {
+    "gesture": "Same",
+    "timestamp_start": "00:06:15.530",
+    "timestamp_end": "00:06:22.800"
+  },
+  {
+    "gesture": "So-So",
+    "timestamp_start": "00:06:23.850",
+    "timestamp_end": "00:06:26.040"
+  },
+  {
+    "gesture": "So-So",
+    "timestamp_start": "00:06:26.540",
+    "timestamp_end": "00:06:30.500"
+  },
+  {
+    "gesture": "How are you?",
+    "timestamp_start": "00:06:54.100",
+    "timestamp_end": "00:07:05.100"
+  },
+  {
+    "gesture": "I'm happy",
+    "timestamp_start": "00:07:06.390",
+    "timestamp_end": "00:07:23.900"
+  },
+  {
+    "gesture": "Hello, nice to meet you",
+    "timestamp_start": "00:07:24.780",
+    "timestamp_end": "00:07:37.030"
+  },
+  {
+    "gesture": "I need help",
+    "timestamp_start": "00:07:38.250",
+    "timestamp_end": "00:07:54.100"
+  },
+  {
+    "gesture": "Yes, same here!",
+    "timestamp_start": "00:07:55.380",
+    "timestamp_end": "00:08:06.840"
+  },
+  {
+    "gesture": "You finished?",
+    "timestamp_start": "00:08:08.900",
+    "timestamp_end": "00:08:22.500"
+  },
+  {
+    "gesture": "Tornado",
+    "timestamp_start": "00:08:29.800",
+    "timestamp_end": "00:08:32.400"
+  },
+  {
+    "gesture": "Tornado",
+    "timestamp_start": "00:08:32.400",
+    "timestamp_end": "00:08:36.500"
+  },
+  {
+    "gesture": "Tornado",
+    "timestamp_start": "00:08:36.500",
+    "timestamp_end": "00:08:42.500"
+  }
+]

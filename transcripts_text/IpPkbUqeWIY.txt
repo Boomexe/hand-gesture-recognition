@@ -1,0 +1,307 @@
+[
+  {
+    "word": "HELLO",
+    "timestamp_start": 7.500,
+    "timestamp_end": 8.500
+  },
+  {
+    "word": "HELLO",
+    "timestamp_start": 9.900,
+    "timestamp_end": 11.000
+  },
+  {
+    "word": "MANY",
+    "timestamp_start": 11.800,
+    "timestamp_end": 12.700
+  },
+  {
+    "word": "STUDENTS",
+    "timestamp_start": 13.000,
+    "timestamp_end": 13.600
+  },
+  {
+    "word": "ASK",
+    "timestamp_start": 14.300,
+    "timestamp_end": 14.900
+  },
+  {
+    "word": "THANK-YOU",
+    "timestamp_start": 15.500,
+    "timestamp_end": 16.200
+  },
+  {
+    "word": "HOW",
+    "timestamp_start": 16.800,
+    "timestamp_end": 17.400
+  },
+  {
+    "word": "RESPOND",
+    "timestamp_start": 18.200,
+    "timestamp_end": 19.000
+  },
+  {
+    "word": "ASL",
+    "timestamp_start": 24.400,
+    "timestamp_end": 25.000
+  },
+  {
+    "word": "THREE",
+    "timestamp_start": 25.700,
+    "timestamp_end": 26.500
+  },
+  {
+    "word": "RESPONSES",
+    "timestamp_start": 26.700,
+    "timestamp_end": 27.400
+  },
+  {
+    "word": "THESE",
+    "timestamp_start": 28.000,
+    "timestamp_end": 28.700
+  },
+  {
+    "word": "FIRST",
+    "timestamp_start": 29.400,
+    "timestamp_end": 30.100
+  },
+  {
+    "word": "RESPOND",
+    "timestamp_start": 30.300,
+    "timestamp_end": 31.000
+  },
+  {
+    "word": "THANK-YOU",
+    "timestamp_start": 31.200,
+    "timestamp_end": 31.900
+  },
+  {
+    "word": "BACK",
+    "timestamp_start": 32.100,
+    "timestamp_end": 32.400
+  },
+  {
+    "word": "EXAMPLE",
+    "timestamp_start": 32.600,
+    "timestamp_end": 33.300
+  },
+  {
+    "word": "THANK-YOU",
+    "timestamp_start": 33.800,
+    "timestamp_end": 34.400
+  },
+  {
+    "word": "THANK-YOU",
+    "timestamp_start": 34.900,
+    "timestamp_end": 35.500
+  },
+  {
+    "word": "SAME",
+    "timestamp_start": 37.400,
+    "timestamp_end": 38.000
+  },
+  {
+    "word": "SECOND",
+    "timestamp_start": 39.100,
+    "timestamp_end": 39.700
+  },
+  {
+    "word": "FINE",
+    "timestamp_start": 40.300,
+    "timestamp_end": 41.000
+  },
+  {
+    "word": "FINE",
+    "timestamp_start": 42.000,
+    "timestamp_end": 42.500
+  },
+  {
+    "word": "FINE",
+    "timestamp_start": 43.000,
+    "timestamp_end": 43.600
+  },
+  {
+    "word": "FINE",
+    "timestamp_start": 44.200,
+    "timestamp_end": 44.800
+  },
+  {
+    "word": "EXAMPLE",
+    "timestamp_start": 45.300,
+    "timestamp_end": 45.800
+  },
+  {
+    "word": "THANK-YOU",
+    "timestamp_start": 46.300,
+    "timestamp_end": 46.800
+  },
+  {
+    "word": "FINE",
+    "timestamp_start": 47.300,
+    "timestamp_end": 47.900
+  },
+  {
+    "word": "THIRD",
+    "timestamp_start": 50.000,
+    "timestamp_end": 50.600
+  },
+  {
+    "word": "EXPRESS",
+    "timestamp_start": 51.000,
+    "timestamp_end": 51.600
+  },
+  {
+    "word": "NOTHING",
+    "timestamp_start": 52.000,
+    "timestamp_end": 52.500
+  },
+  {
+    "word": "PROBLEM",
+    "timestamp_start": 52.900,
+    "timestamp_end": 53.400
+  },
+  {
+    "word": "THIRD",
+    "timestamp_start": 54.000,
+    "timestamp_end": 54.800
+  },
+  {
+    "word": "EXPANDED",
+    "timestamp_start": 55.200,
+    "timestamp_end": 55.800
+  },
+  {
+    "word": "INCLUDE",
+    "timestamp_start": 56.200,
+    "timestamp_end": 56.800
+  },
+  {
+    "word": "NOTHING",
+    "timestamp_start": 57.100,
+    "timestamp_end": 57.600
+  },
+  {
+    "word": "NO PROBLEM",
+    "timestamp_start": 58.000,
+    "timestamp_end": 58.700
+  },
+  {
+    "word": "NAH",
+    "timestamp_start": 59.000,
+    "timestamp_end": 59.600
+  },
+  {
+    "word": "EXAMPLE",
+    "timestamp_start": 100.000,
+    "timestamp_end": 100.600
+  },
+  {
+    "word": "THANK-YOU",
+    "timestamp_start": 101.200,
+    "timestamp_end": 101.800
+  },
+  {
+    "word": "NOTHING",
+    "timestamp_start": 102.300,
+    "timestamp_end": 102.900
+  },
+  {
+    "word": "REVIEW",
+    "timestamp_start": 104.200,
+    "timestamp_end": 104.800
+  },
+  {
+    "word": "SOMEONE",
+    "timestamp_start": 105.100,
+    "timestamp_end": 105.600
+  },
+  {
+    "word": "SIGNS",
+    "timestamp_start": 105.900,
+    "timestamp_end": 106.500
+  },
+  {
+    "word": "THANK-YOU",
+    "timestamp_start": 106.700,
+    "timestamp_end": 107.300
+  },
+  {
+    "word": "YOUR",
+    "timestamp_start": 107.700,
+    "timestamp_end": 108.300
+  },
+  {
+    "word": "RESPONSE",
+    "timestamp_start": 108.500,
+    "timestamp_end": 109.100
+  },
+  {
+    "word": "CAN BE",
+    "timestamp_start": 109.300,
+    "timestamp_end": 110.000
+  },
+  {
+    "word": "THESE THREE",
+    "timestamp_start": 110.200,
+    "timestamp_end": 110.800
+  },
+  {
+    "word": "THANK-YOU",
+    "timestamp_start": 111.200,
+    "timestamp_end": 111.800
+  },
+  {
+    "word": "FINE",
+    "timestamp_start": 112.100,
+    "timestamp_end": 112.700
+  },
+  {
+    "word": "NOTHING",
+    "timestamp_start": 113.000,
+    "timestamp_end": 113.600
+  },
+  {
+    "word": "NAH",
+    "timestamp_start": 113.900,
+    "timestamp_end": 114.300
+  },
+  {
+    "word": "NO PROBLEM",
+    "timestamp_start": 114.500,
+    "timestamp_end": 115.100
+  },
+  {
+    "word": "THANK-YOU",
+    "timestamp_start": 115.600,
+    "timestamp_end": 116.200
+  },
+  {
+    "word": "WATCHING",
+    "timestamp_start": 116.500,
+    "timestamp_end": 117.000
+  },
+  {
+    "word": "HOPE",
+    "timestamp_start": 117.300,
+    "timestamp_end": 117.800
+  },
+  {
+    "word": "SEE",
+    "timestamp_start": 118.000,
+    "timestamp_end": 118.400
+  },
+  {
+    "word": "AGAIN",
+    "timestamp_start": 118.600,
+    "timestamp_end": 119.100
+  },
+  {
+    "word": "SOON",
+    "timestamp_start": 119.300,
+    "timestamp_end": 119.700
+  },
+  {
+    "word": "BYE",
+    "timestamp_start": 119.900,
+    "timestamp_end": 120.300
+  }
+]

@@ -1,0 +1,152 @@
+[
+  {
+    "word": "Hello",
+    "timestamp_start": "00:00:09.100",
+    "timestamp_end": "00:00:10.200"
+  },
+  {
+    "word": "THANK-YOU",
+    "timestamp_start": "00:00:14.000",
+    "timestamp_end": "00:00:14.600"
+  },
+  {
+    "word": "THREE",
+    "timestamp_start": "00:00:26.900",
+    "timestamp_end": "00:00:27.700"
+  },
+  {
+    "word": "FIRST",
+    "timestamp_start": "00:00:28.900",
+    "timestamp_end": "00:00:29.400"
+  },
+  {
+    "word": "THANK-YOU",
+    "timestamp_start": "00:00:30.200",
+    "timestamp_end": "00:00:30.900"
+  },
+  {
+    "word": "THANK-YOU",
+    "timestamp_start": "00:00:34.000",
+    "timestamp_end": "00:00:34.500"
+  },
+  {
+    "word": "THANK-YOU",
+    "timestamp_start": "00:00:35.300",
+    "timestamp_end": "00:00:36.000"
+  },
+  {
+    "word": "THANK-YOU",
+    "timestamp_start": "00:00:37.400",
+    "timestamp_end": "00:00:38.000"
+  },
+  {
+    "word": "SECOND",
+    "timestamp_start": "00:00:39.000",
+    "timestamp_end": "00:00:39.700"
+  },
+  {
+    "word": "FINE",
+    "timestamp_start": "00:00:41.200",
+    "timestamp_end": "00:00:42.000"
+  },
+  {
+    "word": "FINE",
+    "timestamp_start": "00:00:44.800",
+    "timestamp_end": "00:00:45.300"
+  },
+  {
+    "word": "THANK-YOU",
+    "timestamp_start": "00:00:47.000",
+    "timestamp_end": "00:00:47.500"
+  },
+  {
+    "word": "FINE",
+    "timestamp_start": "00:00:48.400",
+    "timestamp_end": "00:00:49.000"
+  },
+  {
+    "word": "THIRD",
+    "timestamp_start": "00:00:50.800",
+    "timestamp_end": "00:00:51.600"
+  },
+  {
+    "word": "NOTHING",
+    "timestamp_start": "00:00:54.600",
+    "timestamp_end": "00:00:55.200"
+  },
+  {
+    "word": "NO PROBLEM",
+    "timestamp_start": "00:00:56.800",
+    "timestamp_end": "00:00:57.300"
+  },
+  {
+    "word": "NAH",
+    "timestamp_start": "00:00:57.700",
+    "timestamp_end": "00:00:58.300"
+  },
+  {
+    "word": "NOTHING",
+    "timestamp_start": "00:01:00.000",
+    "timestamp_end": "00:01:00.600"
+  },
+  {
+    "word": "NO PROBLEM",
+    "timestamp_start": "00:01:01.200",
+    "timestamp_end": "00:01:01.800"
+  },
+  {
+    "word": "NAH",
+    "timestamp_start": "00:01:03.000",
+    "timestamp_end": "00:01:03.500"
+  },
+  {
+    "word": "THANK-YOU",
+    "timestamp_start": "00:01:06.000",
+    "timestamp_end": "00:01:06.500"
+  },
+  {
+    "word": "NOTHING",
+    "timestamp_start": "00:01:07.700",
+    "timestamp_end": "00:01:08.200"
+  },
+  {
+    "word": "THANK-YOU",
+    "timestamp_start": "00:01:11.800",
+    "timestamp_end": "00:01:12.300"
+  },
+  {
+    "word": "THANK-YOU",
+    "timestamp_start": "00:01:16.400",
+    "timestamp_end": "00:01:17.100"
+  },
+  {
+    "word": "FINE",
+    "timestamp_start": "00:01:18.000",
+    "timestamp_end": "00:01:18.700"
+  },
+  {
+    "word": "NOTHING",
+    "timestamp_start": "00:01:20.100",
+    "timestamp_end": "00:01:20.800"
+  },
+  {
+    "word": "NO PROBLEM",
+    "timestamp_start": "00:01:22.000",
+    "timestamp_end": "00:01:22.600"
+  },
+  {
+    "word": "THANK-YOU",
+    "timestamp_start": "00:01:24.400",
+    "timestamp_end": "00:01:25.100"
+  },
+  {
+    "word": "SEE-YOU-AGAIN",
+    "timestamp_start": "00:01:26.500",
+    "timestamp_end": "00:01:27.400"
+  },
+  {
+    "word": "BYE",
+    "timestamp_start": "00:01:28.100",
+    "timestamp_end": "00:01:28.900"
+  }
+]

@@ -1,0 +1,48 @@
+[
+  {
+    "word": "nice to meet you",
+    "timestamp_start": "00:03:02.100",
+    "timestamp_end": "00:03:04.000"
+  },
+  {
+    "word": "nice to meet you",
+    "timestamp_start": "00:03:04.500",
+    "timestamp_end": "00:03:06.500"
+  },
+  {
+    "word": "nice to meet you",
+    "timestamp_start": "00:03:13.500",
+    "timestamp_end": "00:03:15.100"
+  },
+  {
+    "word": "thank you",
+    "timestamp_start": "00:03:51.049",
+    "timestamp_end": "00:03:51.538"
+  },
+  {
+    "word": "thank you",
+    "timestamp_start": "00:03:52.481",
+    "timestamp_end": "00:03:53.0232"
+  },
+  {
+    "word": "more",
+    "timestamp_start": "00:02:46.510",
+    "timestamp_end": "00:02:47.610"
+  },
+  {
+    "word": "more",
+    "timestamp_start": "00:02:48.049",
+    "timestamp_end": "00:02:49.315"
+  },
+  {
+    "word": "more",
+    "timestamp_start": "00:02:49.956",
+    "timestamp_end": "00:02:51.799"
+  },
+  {
+    "word": "more",
+    "timestamp_start": "00:02:52.645",
+    "timestamp_end": "00:02:53.757"
+  }
+  
+]

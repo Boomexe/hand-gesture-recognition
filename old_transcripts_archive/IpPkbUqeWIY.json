@@ -1,0 +1,272 @@
+[
+  {
+    "word": "HELLO",
+    "timestamp_start": "00:08.384",
+    "timestamp_end": "00:09.117"
+  },
+  {
+    "word": "MANY",
+    "timestamp_start": "00:10.024",
+    "timestamp_end": "00:10.534"
+  },
+  {
+    "word": "STUDENT",
+    "timestamp_start": "00:10.534",
+    "timestamp_end": "00:11.024"
+  },
+  {
+    "word": "ASK",
+    "timestamp_start": "00:11.024",
+    "timestamp_end": "00:11.664"
+  },
+  {
+    "word": "ME",
+    "timestamp_start": "00:11.664",
+    "timestamp_end": "00:12.014"
+  },
+  {
+    "word": "WHEN",
+    "timestamp_start": "00:12.784",
+    "timestamp_end": "00:13.124"
+  },
+  {
+    "word": "SOMEONE",
+    "timestamp_start": "00:13.124",
+    "timestamp_end": "00:13.624"
+  },
+  {
+    "word": "SIGN",
+    "timestamp_start": "00:13.624",
+    "timestamp_end": "00:13.884"
+  },
+  {
+    "word": "THANK YOU",
+    "timestamp_start": "00:14.074",
+    "timestamp_end": "00:14.654"
+  },
+  {
+    "word": "HOW",
+    "timestamp_start": "00:14.884",
+    "timestamp_end": "00:15.174"
+  },
+  {
+    "word": "RESPOND",
+    "timestamp_start": "00:15.434",
+    "timestamp_end": "00:16.034"
+  },
+  {
+    "word": "ASL",
+    "timestamp_start": "00:16.124",
+    "timestamp_end": "00:16.484"
+  },
+  {
+    "word": "WHAT",
+    "timestamp_start": "00:17.154",
+    "timestamp_end": "00:17.414"
+  },
+  {
+    "word": "RIGHT",
+    "timestamp_start": "00:17.414",
+    "timestamp_end": "00:17.794"
+  },
+  {
+    "word": "RESPONSE",
+    "timestamp_start": "00:17.794",
+    "timestamp_end": "00:18.174"
+  },
+  {
+    "word": "HOW",
+    "timestamp_start": "00:18.254",
+    "timestamp_end": "00:18.494"
+  },
+  {
+    "word": "SIGN",
+    "timestamp_start": "00:18.524",
+    "timestamp_end": "00:18.894"
+  },
+  {
+    "word": "ENGLISH",
+    "timestamp_start": "00:19.494",
+    "timestamp_end": "00:20.144"
+  },
+  {
+    "word": "YOU'RE WELCOME",
+    "timestamp_start": "00:20.144",
+    "timestamp_end": "00:21.084"
+  },
+  {
+    "word": "ENGLISH",
+    "timestamp_start": "00:22.424",
+    "timestamp_end": "00:22.954"
+  },
+  {
+    "word": "ASL",
+    "timestamp_start": "00:25.044",
+    "timestamp_end": "00:25.504"
+  },
+  {
+    "word": "THREE",
+    "timestamp_start": "00:25.684",
+    "timestamp_end": "00:26.064"
+  },
+  {
+    "word": "RESPONSE",
+    "timestamp_start": "00:26.064",
+    "timestamp_end": "00:26.544"
+  },
+  {
+    "word": "FIRST",
+    "timestamp_start": "00:28.164",
+    "timestamp_end": "00:28.534"
+  },
+  {
+    "word": "RESPOND",
+    "timestamp_start": "00:28.844",
+    "timestamp_end": "00:29.234"
+  },
+  {
+    "word": "THANK YOU",
+    "timestamp_start": "00:29.564",
+    "timestamp_end": "00:30.044"
+  },
+  {
+    "word": "THANK YOU",
+    "timestamp_start": "00:31.424",
+    "timestamp_end": "00:31.974"
+  },
+  {
+    "word": "THANK YOU",
+    "timestamp_start": "00:34.614",
+    "timestamp_end": "00:35.154"
+  },
+  {
+    "word": "THANK YOU",
+    "timestamp_start": "00:35.344",
+    "timestamp_end": "00:35.634"
+  },
+  {
+    "word": "SAME",
+    "timestamp_start": "00:37.384",
+    "timestamp_end": "00:37.744"
+  },
+  {
+    "word": "THING",
+    "timestamp_start": "00:37.744",
+    "timestamp_end": "00:38.074"
+  },
+  {
+    "word": "SECOND",
+    "timestamp_start": "00:39.514",
+    "timestamp_end": "00:40.084"
+  },
+  {
+    "word": "FINE",
+    "timestamp_start": "00:41.34",
+    "timestamp_end": "00:41.564"
+  },
+  {
+    "word": "FINE",
+    "timestamp_start": "00:43.04",
+    "timestamp_end": "00:43.344"
+  },
+  {
+    "word": "FINE",
+    "timestamp_start": "00:44.824",
+    "timestamp_end": "00:45.064"
+  },
+  {
+    "word": "THANK YOU",
+    "timestamp_start": "00:47.364",
+    "timestamp_end": "00:47.884"
+  },
+  {
+    "word": "FINE",
+    "timestamp_start": "00:48.044",
+    "timestamp_end": "00:48.334"
+  },
+  {
+    "word": "THIRD",
+    "timestamp_start": "00:51.104",
+    "timestamp_end": "00:51.524"
+  },
+  {
+    "word": "IT'S NOTHING",
+    "timestamp_start": "00:53.284",
+    "timestamp_end": "00:53.774"
+  },
+  {
+    "word": "NO PROBLEM",
+    "timestamp_start": "00:53.924",
+    "timestamp_end": "00:54.674"
+  },
+  {
+    "word": "NOTHING",
+    "timestamp_start": "00:57.944",
+    "timestamp_end": "00:58.334"
+  },
+  {
+    "word": "NO PROBLEM",
+    "timestamp_start": "00:58.854",
+    "timestamp_end": "00:59.354"
+  },
+  {
+    "word": "NAH",
+    "timestamp_start": "00:59.854",
+    "timestamp_end": "01:00.084"
+  },
+  {
+    "word": "THANK YOU",
+    "timestamp_start": "01:06.014",
+    "timestamp_end": "01:06.664"
+  },
+  {
+    "word": "IT WAS NOTHING",
+    "timestamp_start": "01:06.904",
+    "timestamp_end": "01:08.064"
+  },
+  {
+    "word": "THANK YOU",
+    "timestamp_start": "01:13.434",
+    "timestamp_end": "01:13.914"
+  },
+  {
+    "word": "THANK YOU",
+    "timestamp_start": "01:16.894",
+    "timestamp_end": "01:17.304"
+  },
+  {
+    "word": "FINE",
+    "timestamp_start": "01:17.934",
+    "timestamp_end": "01:18.234"
+  },
+  {
+    "word": "NOTHING",
+    "timestamp_start": "01:19.414",
+    "timestamp_end": "01:19.744"
+  },
+  {
+    "word": "NO PROBLEM",
+    "timestamp_start": "01:21.364",
+    "timestamp_end": "01:21.844"
+  },
+  {
+    "word": "THANK YOU",
+    "timestamp_start": "01:24.084",
+    "timestamp_end": "01:24.494"
+  },
+  {
+    "word": "WATCH",
+    "timestamp_start": "01:24.524",
+    "timestamp_end": "01:24.874"
+  },
+  {
+    "word": "SEE YOU LATER",
+    "timestamp_start": "01:25.994",
+    "timestamp_end": "01:26.794"
+  },
+  {
+    "word": "BYE",
+    "timestamp_start": "01:27.764",
+    "timestamp_end": "01:28.144"
+  }
+]

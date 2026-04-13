@@ -1,0 +1,742 @@
+[
+  {
+    "word": "HELLO",
+    "timestamp_start": "00:07.039",
+    "timestamp_end": "00:08.069"
+  },
+  {
+    "word": "TODAY",
+    "timestamp_start": "00:08.579",
+    "timestamp_end": "00:09.139"
+  },
+  {
+    "word": "I-WILL-SHOW-YOU",
+    "timestamp_start": "00:09.309",
+    "timestamp_end": "00:09.809"
+  },
+  {
+    "word": "SIGNS",
+    "timestamp_start": "00:09.919",
+    "timestamp_end": "00:10.519"
+  },
+  {
+    "word": "RELATED-TO",
+    "timestamp_start": "00:10.619",
+    "timestamp_end": "00:11.239"
+  },
+  {
+    "word": "DIFFERENT",
+    "timestamp_start": "00:11.399",
+    "timestamp_end": "00:11.759"
+  },
+  {
+    "word": "TYPES-OF",
+    "timestamp_start": "00:11.759",
+    "timestamp_end": "00:12.199"
+  },
+  {
+    "word": "HOME",
+    "timestamp_start": "00:12.289",
+    "timestamp_end": "00:12.699"
+  },
+  {
+    "word": "READY",
+    "timestamp_start": "00:12.799",
+    "timestamp_end": "00:13.209"
+  },
+  {
+    "word": "HOME",
+    "timestamp_start": "00:14.349",
+    "timestamp_end": "00:15.119"
+  },
+  {
+    "word": "HOME",
+    "timestamp_start": "00:16.489",
+    "timestamp_end": "00:17.389"
+  },
+  {
+    "word": "HOME",
+    "timestamp_start": "00:18.579",
+    "timestamp_end": "00:19.469"
+  },
+  {
+    "word": "HOME",
+    "timestamp_start": "00:20.699",
+    "timestamp_end": "00:21.159"
+  },
+  {
+    "word": "HOME",
+    "timestamp_start": "00:23.759",
+    "timestamp_end": "00:24.239"
+  },
+  {
+    "word": "HOME",
+    "timestamp_start": "00:26.799",
+    "timestamp_end": "00:27.429"
+  },
+  {
+    "word": "HOME",
+    "timestamp_start": "00:28.479",
+    "timestamp_end": "00:29.139"
+  },
+  {
+    "word": "THIS-SIGN",
+    "timestamp_start": "00:29.629",
+    "timestamp_end": "00:30.299"
+  },
+  {
+    "word": "DESCRIBE",
+    "timestamp_start": "00:30.609",
+    "timestamp_end": "00:31.259"
+  },
+  {
+    "word": "WHERE",
+    "timestamp_start": "00:31.259",
+    "timestamp_end": "00:31.709"
+  },
+  {
+    "word": "YOU-EAT",
+    "timestamp_start": "00:32.069",
+    "timestamp_end": "00:32.619"
+  },
+  {
+    "word": "AND",
+    "timestamp_start": "00:32.879",
+    "timestamp_end": "00:33.279"
+  },
+  {
+    "word": "WHERE-YOU-SLEEP",
+    "timestamp_start": "00:33.569",
+    "timestamp_end": "00:34.369"
+  },
+  {
+    "word": "RIGHT",
+    "timestamp_start": "00:34.699",
+    "timestamp_end": "00:34.999"
+  },
+  {
+    "word": "HOME",
+    "timestamp_start": "00:35.809",
+    "timestamp_end": "00:36.579"
+  },
+  {
+    "word": "HOME",
+    "timestamp_start": "00:36.799",
+    "timestamp_end": "00:37.389"
+  },
+  {
+    "word": "DIFFERENT",
+    "timestamp_start": "00:40.069",
+    "timestamp_end": "00:40.429"
+  },
+  {
+    "word": "TYPES-OF",
+    "timestamp_start": "00:40.429",
+    "timestamp_end": "00:40.949"
+  },
+  {
+    "word": "HOME",
+    "timestamp_start": "00:41.019",
+    "timestamp_end": "00:41.349"
+  },
+  {
+    "word": "WHAT",
+    "timestamp_start": "00:41.749",
+    "timestamp_end": "00:42.129"
+  },
+  {
+    "word": "INCLUDE",
+    "timestamp_start": "00:42.509",
+    "timestamp_end": "00:42.929"
+  },
+  {
+    "word": "HOUSE",
+    "timestamp_start": "00:44.259",
+    "timestamp_end": "00:45.349"
+  },
+  {
+    "word": "HOUSE",
+    "timestamp_start": "00:46.599",
+    "timestamp_end": "00:47.389"
+  },
+  {
+    "word": "B-HANDSHAPE",
+    "timestamp_start": "00:48.069",
+    "timestamp_end": "00:48.869"
+  },
+  {
+    "word": "HOUSE",
+    "timestamp_start": "00:49.009",
+    "timestamp_end": "00:49.309"
+  },
+  {
+    "word": "IT-SHOWS",
+    "timestamp_start": "00:50.079",
+    "timestamp_end": "00:50.609"
+  },
+  {
+    "word": "THE-SHAPE",
+    "timestamp_start": "00:50.609",
+    "timestamp_end": "00:51.139"
+  },
+  {
+    "word": "OF-A-HOUSE",
+    "timestamp_start": "00:51.309",
+    "timestamp_end": "00:52.019"
+  },
+  {
+    "word": "HOUSE",
+    "timestamp_start": "00:52.189",
+    "timestamp_end": "00:52.689"
+  },
+  {
+    "word": "RIGHT",
+    "timestamp_start": "00:52.889",
+    "timestamp_end": "00:53.119"
+  },
+  {
+    "word": "HOUSE",
+    "timestamp_start": "00:53.519",
+    "timestamp_end": "00:54.199"
+  },
+  {
+    "word": "HOUSE",
+    "timestamp_start": "00:55.339",
+    "timestamp_end": "00:56.069"
+  },
+  {
+    "word": "HOUSE",
+    "timestamp_start": "00:57.349",
+    "timestamp_end": "00:57.949"
+  },
+  {
+    "word": "AGAIN",
+    "timestamp_start": "00:58.749",
+    "timestamp_end": "00:59.089"
+  },
+  {
+    "word": "HOUSE",
+    "timestamp_start": "00:59.329",
+    "timestamp_end": "01:00.089"
+  },
+  {
+    "word": "HOUSE",
+    "timestamp_start": "01:03.499",
+    "timestamp_end": "01:04.309"
+  },
+  {
+    "word": "APARTMENT",
+    "timestamp_start": "01:09.309",
+    "timestamp_end": "01:10.059"
+  },
+  {
+    "word": "SO-THAT'S",
+    "timestamp_start": "01:11.859",
+    "timestamp_end": "01:12.339"
+  },
+  {
+    "word": "A",
+    "timestamp_start": "01:12.569",
+    "timestamp_end": "01:12.919"
+  },
+  {
+    "word": "P",
+    "timestamp_start": "01:13.089",
+    "timestamp_end": "01:13.569"
+  },
+  {
+    "word": "T",
+    "timestamp_start": "01:14.399",
+    "timestamp_end": "01:14.719"
+  },
+  {
+    "word": "LEXICALIZED",
+    "timestamp_start": "01:16.149",
+    "timestamp_end": "01:16.899"
+  },
+  {
+    "word": "FINGERSPELLING",
+    "timestamp_start": "01:17.069",
+    "timestamp_end": "01:17.659"
+  },
+  {
+    "word": "COMBINED",
+    "timestamp_start": "01:17.769",
+    "timestamp_end": "01:18.179"
+  },
+  {
+    "word": "APARTMENT",
+    "timestamp_start": "01:19.049",
+    "timestamp_end": "01:19.749"
+  },
+  {
+    "word": "APARTMENT",
+    "timestamp_start": "01:21.369",
+    "timestamp_end": "01:22.099"
+  },
+  {
+    "word": "APARTMENT",
+    "timestamp_start": "01:25.049",
+    "timestamp_end": "01:25.669"
+  },
+  {
+    "word": "THAT-MOVEMENT",
+    "timestamp_start": "01:26.779",
+    "timestamp_end": "01:27.709"
+  },
+  {
+    "word": "YOU-SHOULD-PRACTICE-THAT",
+    "timestamp_start": "01:27.709",
+    "timestamp_end": "01:28.939"
+  },
+  {
+    "word": "UP-DOWN-UP",
+    "timestamp_start": "01:29.629",
+    "timestamp_end": "01:30.569"
+  },
+  {
+    "word": "APARTMENT",
+    "timestamp_start": "01:30.939",
+    "timestamp_end": "01:31.759"
+  },
+  {
+    "word": "APARTMENT",
+    "timestamp_start": "01:38.259",
+    "timestamp_end": "01:39.029"
+  },
+  {
+    "word": "LIVE",
+    "timestamp_start": "01:42.069",
+    "timestamp_end": "01:42.549"
+  },
+  {
+    "word": "OPEN-A-HANDSHAPE",
+    "timestamp_start": "01:44.279",
+    "timestamp_end": "01:45.319"
+  },
+  {
+    "word": "LIVE",
+    "timestamp_start": "01:46.069",
+    "timestamp_end": "01:46.469"
+  },
+  {
+    "word": "LIVE",
+    "timestamp_start": "01:48.069",
+    "timestamp_end": "01:48.539"
+  },
+  {
+    "word": "LIVE",
+    "timestamp_start": "01:50.049",
+    "timestamp_end": "01:50.499"
+  },
+  {
+    "word": "YOU-MAY-ALSO-SEE-IT-SIGNED-WITH-AN-L-HANDSHAPE",
+    "timestamp_start": "01:54.679",
+    "timestamp_end": "01:56.599"
+  },
+  {
+    "word": "LIVE",
+    "timestamp_start": "01:56.639",
+    "timestamp_end": "01:57.199"
+  },
+  {
+    "word": "LIVE",
+    "timestamp_start": "01:58.299",
+    "timestamp_end": "01:58.829"
+  },
+  {
+    "word": "LIVE",
+    "timestamp_start": "01:59.209",
+    "timestamp_end": "01:59.629"
+  },
+  {
+    "word": "ENGLISH-INFLUENCED",
+    "timestamp_start": "02:00.709",
+    "timestamp_end": "02:01.699"
+  },
+  {
+    "word": "YOU'LL-SEE-IT-OCCASIONALLY",
+    "timestamp_start": "02:02.139",
+    "timestamp_end": "02:03.549"
+  },
+  {
+    "word": "LIVE",
+    "timestamp_start": "02:05.819",
+    "timestamp_end": "02:06.599"
+  },
+  {
+    "word": "OR",
+    "timestamp_start": "02:06.779",
+    "timestamp_end": "02:07.039"
+  },
+  {
+    "word": "YOU-MAY-SEE",
+    "timestamp_start": "02:07.139",
+    "timestamp_end": "02:07.729"
+  },
+  {
+    "word": "LIVE",
+    "timestamp_start": "02:07.729",
+    "timestamp_end": "02:08.579"
+  },
+  {
+    "word": "LIVE",
+    "timestamp_start": "02:10.459",
+    "timestamp_end": "02:11.009"
+  },
+  {
+    "word": "WHERE",
+    "timestamp_start": "02:12.449",
+    "timestamp_end": "02:12.929"
+  },
+  {
+    "word": "ONE-HANDSHAPE",
+    "timestamp_start": "02:15.659",
+    "timestamp_end": "02:16.489"
+  },
+  {
+    "word": "WHERE",
+    "timestamp_start": "02:16.929",
+    "timestamp_end": "02:17.439"
+  },
+  {
+    "word": "WHERE",
+    "timestamp_start": "02:19.539",
+    "timestamp_end": "02:20.199"
+  },
+  {
+    "word": "WHERE",
+    "timestamp_start": "02:21.579",
+    "timestamp_end": "02:22.069"
+  },
+  {
+    "word": "YOU-LIVE-WHERE",
+    "timestamp_start": "02:24.089",
+    "timestamp_end": "02:25.799"
+  },
+  {
+    "word": "REMEMBER",
+    "timestamp_start": "02:28.099",
+    "timestamp_end": "02:28.699"
+  },
+  {
+    "word": "FOR-THOSE-WH-QUESTIONS",
+    "timestamp_start": "02:28.699",
+    "timestamp_end": "02:30.019"
+  },
+  {
+    "word": "THE-EYEBROWS-ARE-FURROWED",
+    "timestamp_start": "02:30.349",
+    "timestamp_end": "02:31.849"
+  },
+  {
+    "word": "WHERE",
+    "timestamp_start": "02:32.369",
+    "timestamp_end": "02:32.749"
+  },
+  {
+    "word": "YOU-LIVE-WHERE",
+    "timestamp_start": "02:35.039",
+    "timestamp_end": "02:36.179"
+  },
+  {
+    "word": "OR-WHERE-DO-YOU-LIVE",
+    "timestamp_start": "02:36.609",
+    "timestamp_end": "02:37.389"
+  },
+  {
+    "word": "LIVE",
+    "timestamp_start": "02:38.999",
+    "timestamp_end": "02:39.299"
+  },
+  {
+    "word": "HOUSE",
+    "timestamp_start": "02:39.699",
+    "timestamp_end": "02:40.409"
+  },
+  {
+    "word": "APARTMENT",
+    "timestamp_start": "02:40.929",
+    "timestamp_end": "02:41.569"
+  },
+  {
+    "word": "WHICH",
+    "timestamp_start": "02:42.429",
+    "timestamp_end": "02:42.929"
+  },
+  {
+    "word": "AGAIN",
+    "timestamp_start": "02:44.759",
+    "timestamp_end": "02:45.029"
+  },
+  {
+    "word": "YOU-LIVE",
+    "timestamp_start": "02:46.409",
+    "timestamp_end": "02:46.999"
+  },
+  {
+    "word": "HOUSE",
+    "timestamp_start": "02:47.519",
+    "timestamp_end": "02:48.339"
+  },
+  {
+    "word": "APARTMENT",
+    "timestamp_start": "02:49.009",
+    "timestamp_end": "02:50.059"
+  },
+  {
+    "word": "WHICH",
+    "timestamp_start": "02:51.049",
+    "timestamp_end": "02:51.529"
+  },
+  {
+    "word": "FASTER",
+    "timestamp_start": "02:55.059",
+    "timestamp_end": "02:55.439"
+  },
+  {
+    "word": "YOU-LIVE-HOUSE-APARTMENT-WHICH",
+    "timestamp_start": "02:55.709",
+    "timestamp_end": "02:57.499"
+  },
+  {
+    "word": "HAVE",
+    "timestamp_start": "03:00.749",
+    "timestamp_end": "03:01.199"
+  },
+  {
+    "word": "APARTMENT",
+    "timestamp_start": "03:01.319",
+    "timestamp_end": "03:01.999"
+  },
+  {
+    "word": "ME",
+    "timestamp_start": "03:02.169",
+    "timestamp_end": "03:02.489"
+  },
+  {
+    "word": "THAT'S-THE-SIGN",
+    "timestamp_start": "03:03.489",
+    "timestamp_end": "03:04.039"
+  },
+  {
+    "word": "HAVE",
+    "timestamp_start": "03:04.309",
+    "timestamp_end": "03:04.669"
+  },
+  {
+    "word": "HAVE",
+    "timestamp_start": "03:06.199",
+    "timestamp_end": "03:06.749"
+  },
+  {
+    "word": "HAVE",
+    "timestamp_start": "03:07.969",
+    "timestamp_end": "03:08.419"
+  },
+  {
+    "word": "APARTMENT",
+    "timestamp_start": "03:09.679",
+    "timestamp_end": "03:10.429"
+  },
+  {
+    "word": "OTHER",
+    "timestamp_start": "03:12.199",
+    "timestamp_end": "03:12.609"
+  },
+  {
+    "word": "TYPES-OF",
+    "timestamp_start": "03:12.609",
+    "timestamp_end": "03:13.069"
+  },
+  {
+    "word": "HOMES",
+    "timestamp_start": "03:13.259",
+    "timestamp_end": "03:13.929"
+  },
+  {
+    "word": "MAYBE-THERE-ARE",
+    "timestamp_start": "03:14.249",
+    "timestamp_end": "03:15.539"
+  },
+  {
+    "word": "CONDOS",
+    "timestamp_start": "03:16.149",
+    "timestamp_end": "03:17.309"
+  },
+  {
+    "word": "FINGERSPELL",
+    "timestamp_start": "03:17.579",
+    "timestamp_end": "03:18.069"
+  },
+  {
+    "word": "C",
+    "timestamp_start": "03:18.429",
+    "timestamp_end": "03:18.829"
+  },
+  {
+    "word": "O",
+    "timestamp_start": "03:18.999",
+    "timestamp_end": "03:19.249"
+  },
+  {
+    "word": "N",
+    "timestamp_start": "03:19.469",
+    "timestamp_end": "03:19.789"
+  },
+  {
+    "word": "D",
+    "timestamp_start": "03:20.199",
+    "timestamp_end": "03:20.619"
+  },
+  {
+    "word": "O",
+    "timestamp_start": "03:20.739",
+    "timestamp_end": "03:21.039"
+  },
+  {
+    "word": "CONDO",
+    "timestamp_start": "03:24.089",
+    "timestamp_end": "03:24.789"
+  },
+  {
+    "word": "CONDO",
+    "timestamp_start": "03:26.549",
+    "timestamp_end": "03:27.209"
+  },
+  {
+    "word": "DORM",
+    "timestamp_start": "03:28.809",
+    "timestamp_end": "03:29.289"
+  },
+  {
+    "word": "D-HANDSHAPE",
+    "timestamp_start": "03:30.939",
+    "timestamp_end": "03:31.629"
+  },
+  {
+    "word": "DORM",
+    "timestamp_start": "03:32.069",
+    "timestamp_end": "03:32.409"
+  },
+  {
+    "word": "LIKE-THE-SIGN-HOME-BUT-WITH-A-D-HANDSHAPE",
+    "timestamp_start": "03:32.709",
+    "timestamp_end": "03:34.409"
+  },
+  {
+    "word": "DORM",
+    "timestamp_start": "03:34.699",
+    "timestamp_end": "03:35.089"
+  },
+  {
+    "word": "MAYBE-SCHOOLS",
+    "timestamp_start": "03:36.199",
+    "timestamp_end": "03:37.049"
+  },
+  {
+    "word": "HAVE",
+    "timestamp_start": "03:37.049",
+    "timestamp_end": "03:37.389"
+  },
+  {
+    "word": "DORMS",
+    "timestamp_start": "03:37.589",
+    "timestamp_end": "03:38.169"
+  },
+  {
+    "word": "DORM",
+    "timestamp_start": "03:40.099",
+    "timestamp_end": "03:40.489"
+  },
+  {
+    "word": "DORM",
+    "timestamp_start": "03:42.069",
+    "timestamp_end": "03:42.549"
+  },
+  {
+    "word": "DORM",
+    "timestamp_start": "03:43.769",
+    "timestamp_end": "03:44.209"
+  },
+  {
+    "word": "DORMITORY",
+    "timestamp_start": "03:44.209",
+    "timestamp_end": "03:45.039"
+  },
+  {
+    "word": "DORM",
+    "timestamp_start": "03:46.479",
+    "timestamp_end": "03:47.019"
+  },
+  {
+    "word": "D-FOR-DORM",
+    "timestamp_start": "03:48.339",
+    "timestamp_end": "03:49.779"
+  },
+  {
+    "word": "OKAY",
+    "timestamp_start": "03:51.699",
+    "timestamp_end": "03:52.209"
+  },
+  {
+    "word": "THAT'S-A-FEW-SIGNS",
+    "timestamp_start": "03:52.209",
+    "timestamp_end": "03:53.079"
+  },
+  {
+    "word": "RELATED-TO-THE-HOME",
+    "timestamp_start": "03:53.079",
+    "timestamp_end": "03:54.029"
+  },
+  {
+    "word": "YOU-LIVE-WHERE",
+    "timestamp_start": "03:55.339",
+    "timestamp_end": "03:56.559"
+  },
+  {
+    "word": "APARTMENT-HOUSE-WHICH",
+    "timestamp_start": "03:57.269",
+    "timestamp_end": "03:58.829"
+  },
+  {
+    "word": "NEXT",
+    "timestamp_start": "04:00.679",
+    "timestamp_end": "04:01.079"
+  },
+  {
+    "word": "I'LL-SHOW-YOU",
+    "timestamp_start": "04:01.189",
+    "timestamp_end": "04:01.769"
+  },
+  {
+    "word": "DIFFERENT",
+    "timestamp_start": "04:01.889",
+    "timestamp_end": "04:02.399"
+  },
+  {
+    "word": "ROOMS",
+    "timestamp_start": "04:02.589",
+    "timestamp_end": "04:03.189"
+  },
+  {
+    "word": "AND-HOW-TO-SIGN-THOSE",
+    "timestamp_start": "04:03.499",
+    "timestamp_end": "04:04.629"
+  },
+  {
+    "word": "THANK-YOU-FOR-WATCHING",
+    "timestamp_start": "04:05.109",
+    "timestamp_end": "04:06.299"
+  },
+  {
+    "word": "AND-I'LL-SEE-YOU-SOON",
+    "timestamp_start": "04:06.609",
+    "timestamp_end": "04:07.579"
+  },
+  {
+    "word": "BYE-BYE",
+    "timestamp_start": "04:07.829",
+    "timestamp_end": "04:08.799"
+  }
+]

@@ -1,0 +1,397 @@
+[
+  {
+    "word": "HOME",
+    "timestamp_start": 13.298,
+    "timestamp_end": 15.548
+  },
+  {
+    "word": "HOME",
+    "timestamp_start": 16.89,
+    "timestamp_end": 19.46
+  },
+  {
+    "word": "HOME",
+    "timestamp_start": 20.12,
+    "timestamp_end": 22.09
+  },
+  {
+    "word": "HOME",
+    "timestamp_start": 24.08,
+    "timestamp_end": 27.27
+  },
+  {
+    "word": "HOME",
+    "timestamp_start": 28.45,
+    "timestamp_end": 29.61
+  },
+  {
+    "word": "EAT",
+    "timestamp_start": 32.48,
+    "timestamp_end": 33.72
+  },
+  {
+    "word": "SLEEP",
+    "timestamp_start": 33.86,
+    "timestamp_end": 35.4
+  },
+  {
+    "word": "HOME",
+    "timestamp_start": 35.8,
+    "timestamp_end": 38.27
+  },
+  {
+    "word": "HOUSE",
+    "timestamp_start": 43.9,
+    "timestamp_end": 47.45
+  },
+  {
+    "word": "HOUSE",
+    "timestamp_start": 47.88,
+    "timestamp_end": 49.81
+  },
+  {
+    "word": "HOUSE",
+    "timestamp_start": 50.04,
+    "timestamp_end": 52.92
+  },
+  {
+    "word": "HOUSE",
+    "timestamp_start": 55.08,
+    "timestamp_end": 58.29
+  },
+  {
+    "word": "HOUSE",
+    "timestamp_start": 58.85,
+    "timestamp_end": 62.16
+  },
+  {
+    "word": "HOUSE",
+    "timestamp_start": 63.02,
+    "timestamp_end": 66.0
+  },
+  {
+    "word": "APARTMENT",
+    "timestamp_start": 69.11,
+    "timestamp_end": 72.63
+  },
+  {
+    "word": "APARTMENT",
+    "timestamp_start": 73.25,
+    "timestamp_end": 77.37
+  },
+  {
+    "word": "APARTMENT",
+    "timestamp_start": 78.0,
+    "timestamp_end": 81.05
+  },
+  {
+    "word": "APARTMENT",
+    "timestamp_start": 81.39,
+    "timestamp_end": 84.0
+  },
+  {
+    "word": "APARTMENT",
+    "timestamp_start": 85.26,
+    "timestamp_end": 96.5
+  },
+  {
+    "word": "APARTMENT",
+    "timestamp_start": 96.93,
+    "timestamp_end": 100.06
+  },
+  {
+    "word": "LIVE",
+    "timestamp_start": 101.52,
+    "timestamp_end": 104.2
+  },
+  {
+    "word": "LIVE",
+    "timestamp_start": 104.75,
+    "timestamp_end": 107.74
+  },
+  {
+    "word": "LIVE",
+    "timestamp_start": 108.33,
+    "timestamp_end": 111.35
+  },
+  {
+    "word": "LIVE",
+    "timestamp_start": 112.34,
+    "timestamp_end": 113.94
+  },
+  {
+    "word": "LIVE (L-handshape)",
+    "timestamp_start": 115.0,
+    "timestamp_end": 120.67
+  },
+  {
+    "word": "LIVE",
+    "timestamp_start": 125.47,
+    "timestamp_end": 126.84
+  },
+  {
+    "word": "LIVE (L-handshape)",
+    "timestamp_start": 127.12,
+    "timestamp_end": 129.93
+  },
+  {
+    "word": "LIVE",
+    "timestamp_start": 130.23,
+    "timestamp_end": 131.23
+  },
+  {
+    "word": "WHERE",
+    "timestamp_start": 132.01,
+    "timestamp_end": 134.6
+  },
+  {
+    "word": "WHERE",
+    "timestamp_start": 135.11,
+    "timestamp_end": 138.17
+  },
+  {
+    "word": "WHERE",
+    "timestamp_start": 138.91,
+    "timestamp_end": 141.14
+  },
+  {
+    "word": "WHERE",
+    "timestamp_start": 141.6,
+    "timestamp_end": 142.86
+  },
+  {
+    "word": "YOU",
+    "timestamp_start": 143.95,
+    "timestamp_end": 144.63
+  },
+  {
+    "word": "LIVE",
+    "timestamp_start": 144.63,
+    "timestamp_end": 145.99
+  },
+  {
+    "word": "WHERE",
+    "timestamp_start": 146.08,
+    "timestamp_end": 147.77
+  },
+  {
+    "word": "WHERE",
+    "timestamp_start": 148.47,
+    "timestamp_end": 150.95
+  },
+  {
+    "word": "YOU",
+    "timestamp_start": 154.02,
+    "timestamp_end": 154.72
+  },
+  {
+    "word": "LIVE",
+    "timestamp_start": 154.72,
+    "timestamp_end": 156.0
+  },
+  {
+    "word": "WHERE",
+    "timestamp_start": 156.0,
+    "timestamp_end": 157.38
+  },
+  {
+    "word": "YOU",
+    "timestamp_start": 158.99,
+    "timestamp_end": 159.69
+  },
+  {
+    "word": "LIVE",
+    "timestamp_start": 159.69,
+    "timestamp_end": 160.4
+  },
+  {
+    "word": "HOUSE",
+    "timestamp_start": 160.4,
+    "timestamp_end": 160.94
+  },
+  {
+    "word": "APARTMENT",
+    "timestamp_start": 160.94,
+    "timestamp_end": 162.14
+  },
+  {
+    "word": "WHICH",
+    "timestamp_start": 162.5,
+    "timestamp_end": 164.6
+  },
+  {
+    "word": "YOU",
+    "timestamp_start": 165.54,
+    "timestamp_end": 166.04
+  },
+  {
+    "word": "LIVE",
+    "timestamp_start": 166.04,
+    "timestamp_end": 167.16
+  },
+  {
+    "word": "HOUSE",
+    "timestamp_start": 167.16,
+    "timestamp_end": 168.06
+  },
+  {
+    "word": "APARTMENT",
+    "timestamp_start": 168.06,
+    "timestamp_end": 171.29
+  },
+  {
+    "word": "WHICH",
+    "timestamp_start": 171.7,
+    "timestamp_end": 173.25
+  },
+  {
+    "word": "YOU",
+    "timestamp_start": 174.55,
+    "timestamp_end": 175.19
+  },
+  {
+    "word": "LIVE",
+    "timestamp_start": 175.19,
+    "timestamp_end": 175.98
+  },
+  {
+    "word": "HOUSE",
+    "timestamp_start": 175.98,
+    "timestamp_end": 176.54
+  },
+  {
+    "word": "APARTMENT",
+    "timestamp_start": 176.54,
+    "timestamp_end": 178.24
+  },
+  {
+    "word": "WHICH",
+    "timestamp_start": 178.52,
+    "timestamp_end": 179.08
+  },
+  {
+    "word": "HAVE",
+    "timestamp_start": 180.47,
+    "timestamp_end": 181.07
+  },
+  {
+    "word": "APARTMENT",
+    "timestamp_start": 181.07,
+    "timestamp_end": 183.0
+  },
+  {
+    "word": "ME",
+    "timestamp_start": 183.0,
+    "timestamp_end": 183.54
+  },
+  {
+    "word": "HAVE",
+    "timestamp_start": 184.28,
+    "timestamp_end": 186.27
+  },
+  {
+    "word": "HAVE",
+    "timestamp_start": 186.88,
+    "timestamp_end": 188.57
+  },
+  {
+    "word": "HAVE",
+    "timestamp_start": 189.18,
+    "timestamp_end": 189.68
+  },
+  {
+    "word": "APARTMENT",
+    "timestamp_start": 189.68,
+    "timestamp_end": 190.59
+  },
+  {
+    "word": "ME",
+    "timestamp_start": 190.59,
+    "timestamp_end": 190.98
+  },
+  {
+    "word": "CONDO (fingerspelled)",
+    "timestamp_start": 196.89,
+    "timestamp_end": 202.25
+  },
+  {
+    "word": "CONDO",
+    "timestamp_start": 203.1,
+    "timestamp_end": 205.75
+  },
+  {
+    "word": "CONDO",
+    "timestamp_start": 206.54,
+    "timestamp_end": 208.14
+  },
+  {
+    "word": "DORM",
+    "timestamp_start": 208.77,
+    "timestamp_end": 210.7
+  },
+  {
+    "word": "DORM",
+    "timestamp_start": 211.42,
+    "timestamp_end": 216.51
+  },
+  {
+    "word": "DORM",
+    "timestamp_start": 219.99,
+    "timestamp_end": 222.5
+  },
+  {
+    "word": "DORM",
+    "timestamp_start": 223.08,
+    "timestamp_end": 225.36
+  },
+  {
+    "word": "DORM",
+    "timestamp_start": 225.74,
+    "timestamp_end": 227.27
+  },
+  {
+    "word": "DORM",
+    "timestamp_start": 228.39,
+    "timestamp_end": 230.5
+  },
+  {
+    "word": "HOME",
+    "timestamp_start": 232.55,
+    "timestamp_end": 233.15
+  },
+  {
+    "word": "WHERE",
+    "timestamp_start": 233.84,
+    "timestamp_end": 234.67
+  },
+  {
+    "word": "LIVE",
+    "timestamp_start": 234.99,
+    "timestamp_end": 235.53
+  },
+  {
+    "word": "HOUSE",
+    "timestamp_start": 236.24,
+    "timestamp_end": 237.06
+  },
+  {
+    "word": "APARTMENT",
+    "timestamp_start": 237.06,
+    "timestamp_end": 238.46
+  },
+  {
+    "word": "WHICH",
+    "timestamp_start": 238.82,
+    "timestamp_end": 240.22
+  },
+  {
+    "word": "THANK-YOU",
+    "timestamp_start": 244.0,
+    "timestamp_end": 245.4
+  },
+  {
+    "word": "SEE-YOU-SOON",
+    "timestamp_start": 245.69,
+    "timestamp_end": 248.68
+  }
+]

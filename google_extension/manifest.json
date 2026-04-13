@@ -1,0 +1,17 @@
+{
+    "name": "Google Extension",
+    "version": "1.0",
+    "manifest_version": 3,
+    "description": "A simple Google Extension",
+    "permissions": [
+        "activeTab",
+        "scripting"
+    ],
+    "commands": {},
+    "content_scripts": [
+        {
+            "matches": ["*://*.youtube.com/*"],
+            "js": ["content.js"]
+        }
+    ]
+}

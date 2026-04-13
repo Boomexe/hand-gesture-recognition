@@ -1,0 +1,72 @@
+[
+  {
+    "word": "hello",
+    "timestamp_start": "00:02:00.067",
+    "timestamp_end": "00:02:00.833"
+  },
+  {
+    "word": "hello",
+    "timestamp_start": "00:02:01.533",
+    "timestamp_end": "00:02:02.466"
+  },
+  {
+    "word": "hello",
+    "timestamp_start": "00:02:03.232",
+    "timestamp_end": "00:02:04.232"
+  },
+  {
+    "word": "hello",
+    "timestamp_start": "00:02:05.404",
+    "timestamp_end": "00:02:06.270"
+  },
+  {
+    "word": "hello",
+    "timestamp_start": "00:02:07.237",
+    "timestamp_end": "00:02:07.745"
+  },
+  {
+    "word": "like",
+    "timestamp_start": "00:02:36.914",
+    "timestamp_end": "00:02:37.414"
+  },
+  {
+    "word": "like",
+    "timestamp_start": "00:02:38.662",
+    "timestamp_end": "00:02:39.430"
+  },
+  {
+    "word": "like",
+    "timestamp_start": "00:02:40.630",
+    "timestamp_end": "00:02:41.727"
+  },
+  {
+    "word": "like",
+    "timestamp_start": "00:02:42.557",
+    "timestamp_end": "00:02:43.690"
+  },
+  {
+    "word": "like",
+    "timestamp_start": "00:02:44.949",
+    "timestamp_end": "00:02:45.931"
+  },
+  {
+    "word": "more",
+    "timestamp_start": "00:02:46.510",
+    "timestamp_end": "00:02:47.610"
+  },
+  {
+    "word": "more",
+    "timestamp_start": "00:02:48.049",
+    "timestamp_end": "00:02:49.315"
+  },
+  {
+    "word": "more",
+    "timestamp_start": "00:02:49.956",
+    "timestamp_end": "00:02:51.799"
+  },
+  {
+    "word": "more",
+    "timestamp_start": "00:02:52.645",
+    "timestamp_end": "00:02:53.757"
+  }
+]

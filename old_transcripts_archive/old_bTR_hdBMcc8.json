@@ -1,0 +1,167 @@
+[
+  {
+    "word": "HOME",
+    "timestamp_start": 0.125,
+    "timestamp_end": 0.178
+  },
+  {
+    "word": "HOME",
+    "timestamp_start": 0.178,
+    "timestamp_end": 0.222
+  },
+  {
+    "word": "HOME",
+    "timestamp_start": 0.233,
+    "timestamp_end": 0.279
+  },
+  {
+    "word": "HOME",
+    "timestamp_start": 0.285,
+    "timestamp_end": 0.386
+  },
+  {
+    "word": "HOUSE",
+    "timestamp_start": 0.442,
+    "timestamp_end": 0.536
+  },
+  {
+    "word": "HOUSE",
+    "timestamp_start": 0.547,
+    "timestamp_end": 1.02
+  },
+  {
+    "word": "HOUSE",
+    "timestamp_start": 1.02,
+    "timestamp_end": 1.066
+  },
+  {
+    "word": "APARTMENT",
+    "timestamp_start": 1.085,
+    "timestamp_end": 1.171
+  },
+  {
+    "word": "APARTMENT",
+    "timestamp_start": 1.183,
+    "timestamp_end": 1.246
+  },
+  {
+    "word": "APARTMENT",
+    "timestamp_start": 1.259,
+    "timestamp_end": 1.365
+  },
+  {
+    "word": "APARTMENT",
+    "timestamp_start": 1.378,
+    "timestamp_end": 1.405
+  },
+  {
+    "word": "LIVE",
+    "timestamp_start": 1.419,
+    "timestamp_end": 1.474
+  },
+  {
+    "word": "LIVE",
+    "timestamp_start": 1.485,
+    "timestamp_end": 1.528
+  },
+  {
+    "word": "LIVE",
+    "timestamp_start": 1.554,
+    "timestamp_end": 1.597
+  },
+  {
+    "word": "LIVE",
+    "timestamp_start": 2.062,
+    "timestamp_end": 2.083
+  },
+  {
+    "word": "LIVE",
+    "timestamp_start": 2.083,
+    "timestamp_end": 2.109
+  },
+  {
+    "word": "WHERE?",
+    "timestamp_start": 2.124,
+    "timestamp_end": 2.179
+  },
+  {
+    "word": "WHERE?",
+    "timestamp_start": 2.189,
+    "timestamp_end": 2.223
+  },
+  {
+    "word": "YOU LIVE WHERE?",
+    "timestamp_start": 2.238,
+    "timestamp_end": 2.274
+  },
+  {
+    "word": "WHERE?",
+    "timestamp_start": 2.29,
+    "timestamp_end": 2.33
+  },
+  {
+    "word": "YOU LIVE WHERE?",
+    "timestamp_start": 2.345,
+    "timestamp_end": 2.373
+  },
+  {
+    "word": "YOU LIVE HOUSE, APARTMENT, WHICH?",
+    "timestamp_start": 2.387,
+    "timestamp_end": 2.441
+  },
+  {
+    "word": "YOU LIVE HOUSE, APARTMENT, WHICH?",
+    "timestamp_start": 2.457,
+    "timestamp_end": 2.532
+  },
+  {
+    "word": "YOU LIVE HOUSE, APARTMENT, WHICH?",
+    "timestamp_start": 2.545,
+    "timestamp_end": 2.593
+  },
+  {
+    "word": "HAVE APARTMENT, ME.",
+    "timestamp_start": 3.003,
+    "timestamp_end": 3.037
+  },
+  {
+    "word": "HAVE",
+    "timestamp_start": 3.045,
+    "timestamp_end": 3.078
+  },
+  {
+    "word": "HAVE APARTMENT, ME.",
+    "timestamp_start": 3.085,
+    "timestamp_end": 3.116
+  },
+  {
+    "word": "CONDO",
+    "timestamp_start": 3.167,
+    "timestamp_end": 3.22
+  },
+  {
+    "word": "CONDO",
+    "timestamp_start": 3.23,
+    "timestamp_end": 3.277
+  },
+  {
+    "word": "DORM",
+    "timestamp_start": 3.292,
+    "timestamp_end": 3.321
+  },
+  {
+    "word": "DORM",
+    "timestamp_start": 3.33,
+    "timestamp_end": 3.398
+  },
+  {
+    "word": "DORM",
+    "timestamp_start": 3.407,
+    "timestamp_end": 3.447
+  },
+  {
+    "word": "DORM",
+    "timestamp_start": 3.454,
+    "timestamp_end": 3.5
+  }
+]
