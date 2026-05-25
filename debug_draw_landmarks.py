@@ -8,7 +8,7 @@ import numpy as np
 vid = "08323987948608247-TWO MORE.mp4"
 video_path = f"asl citizen data/ASL_Citizen/videos/{vid}"
 # gesture_data_path = f"asl_citizen_gesture_data/raw_data/test/{vid}.csv"
-gesture_data_path = f"website/processed_landmarks.csv"
+gesture_data_path = f"website/uploads/processed_landmarks.csv"
 
 mp_hands = mp.tasks.vision.HandLandmarksConnections
 mp_drawing = mp.tasks.vision.drawing_utils
