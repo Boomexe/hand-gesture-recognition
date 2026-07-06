@@ -1,100 +1,147 @@
-import time
+import os
+import json
 import flask
-from flask import json
-from flask_socketio import SocketIO, emit
-from flask import render_template
-from collections import deque
 import numpy as np
 from tensorflow.keras.models import load_model
 import pandas as pd
-import mediapipe as mp
-import cv2
-import os
 
-data_cache = deque(maxlen=186)
+import sys
+from pathlib import Path
 
+sys.path.append("D:/Coding/Projects/hand gesture recognition")
+from data_generation import DataGeneration
+# from data_generation import DataGeneration
 
 app = flask.Flask(__name__)
+
+model = load_model("models/hand_gesture_modelv9.keras")
+
+with open("parameters.json", "r") as f:
+    parameters = json.load(f)
+
+# Your notebook saves word_to_number as {index: word}, but JSON turns int keys into strings.
+words = parameters["word_to_number"]
+
+MAX_FRAMES = parameters["frames_per_gesture"]
+MODEL_DATA_PER_FRAME = parameters["data_per_frame"]
+RAW_DATA_PER_FRAME = MODEL_DATA_PER_FRAME // 2
+
+data_gen = DataGeneration(videos_path="")  # not needed for direct video paths
+
+
+def add_velocity(X):
+    velocity = np.diff(X, axis=1, prepend=X[:, :1, :])
+    return np.concatenate([X, velocity], axis=-1)
+
+
+def preprocess_video_from_upload(video_path):
+    df = data_gen.generate(video_path)
+
+    if len(df) == 0:
+        raise ValueError("No hands detected in video.")
+
+    if len(df.columns) != RAW_DATA_PER_FRAME:
+        raise ValueError(
+            f"Raw feature mismatch: got {len(df.columns)}, expected {RAW_DATA_PER_FRAME}. "
+            f"Model expects {MODEL_DATA_PER_FRAME} after add_velocity."
+        )
+
+    if len(df) > MAX_FRAMES:
+        df = df.iloc[:MAX_FRAMES].copy()
+
+    if len(df) < MAX_FRAMES:
+        current_frame = len(df) - 1
+
+        for _ in range(MAX_FRAMES - len(df)):
+            df.loc[len(df)] = [current_frame + 1, 0] + np.zeros(len(df.columns) - 2).tolist()
+
+    X = df.to_numpy(dtype=np.float32)
+    X = X.reshape(1, MAX_FRAMES, RAW_DATA_PER_FRAME)
+    X = add_velocity(X)
+
+    if X.shape[1:] != model.input_shape[1:]:
+        raise ValueError(
+            f"Final model input mismatch. Got {X.shape}, model expects {model.input_shape}."
+        )
+
+    return X
+
+@app.route("/upload-video", methods=["POST"])
+def upload_video():
+    if "video" not in flask.request.files:
+        return {"message": "No video file uploaded"}, 400
+
+    os.makedirs("uploads", exist_ok=True)
+
+    video_file = flask.request.files["video"]
+    video_path = "uploads/uploaded_video.mp4"
+    video_file.save(video_path)
+
+    try:
+        X = preprocess_video_from_upload(video_path)
+
+        print("X shape:", X.shape)
+        print("Model input shape:", model.input_shape)
+        print("Nonzero ratio:", np.count_nonzero(X) / X.size)
+
+        pred = model.predict(X)[0]
+
+        top = sorted(
+            [(i, float(p)) for i, p in enumerate(pred)],
+            key=lambda x: x[1],
+            reverse=True
+        )
+
+        print("Prediction vector:", pred)
+        print("Top predictions:", top[:5])
+
+        predicted_index = int(np.argmax(pred))
+        confidence = float(np.max(pred))
+        predicted_word = words[str(predicted_index)]
+
+        return {
+            "predicted_word": predicted_word,
+            "confidence": confidence,
+            "class_index": predicted_index,
+            "top_predictions": [
+                {
+                    "class_index": int(i),
+                    "word": words[str(i)],
+                    "confidence": float(conf),
+                }
+                for i, conf in top[:5]
+            ],
+        }, 200
+
+    except Exception as e:
+        print("Prediction error:", e)
+        return {"message": "Prediction failed", "error": str(e)}, 500
+
+
+
+# import time
+# import flask
+# from flask import json
+from flask_socketio import SocketIO, emit
+from flask import render_template
+from collections import deque
+# import numpy as np
+# from tensorflow.keras.models import load_model
+# import pandas as pd
+# import mediapipe as mp
+# import cv2
+# import os
+# from util import format_landmark_data, format_landmark_data_2d, process_video
+
+data_cache = deque(maxlen=parameters["frames_per_gesture"])
+
+# app = flask.Flask(__name__)
 socketio = SocketIO(app, cors_allowed_origins="*")
 
-model = load_model("models/hand_gesture_modelv6.keras")
-words = json.load(open("word_mapping.json", "r"))
-length_of_gesture = 7150-2
-threshold = 0.8
-
-def format_landmark_data(landmarks, handednesses):
-    result = []
-    
-    # Create a dictionary to store hand data by hand_id
-    hand_data = {}
-    
-    # Process detected hands
-    for hand_index in range(len(landmarks)):
-        hand_landmarks = landmarks[hand_index]
-        handedness_info = handednesses[hand_index][0]
-        handedness = handedness_info['categoryName']
-        hand_id = 0 if handedness == "Left" else 1
-        
-        hand_data[hand_id] = hand_landmarks
-    
-    # Always add both hands (0=Left, 1=Right) in order
-    for hand_id in [0, 1]:
-        result.append(hand_id)
-        
-        if hand_id in hand_data:
-            # Hand was detected, add actual coordinates
-            for landmark in hand_data[hand_id]:
-                result.append(landmark['x'])
-                result.append(landmark['y'])
-                result.append(landmark['z'])
-        else:
-            # Hand was not detected, add zeros for all 21 landmarks
-            for _ in range(21):
-                result.append(0.0)
-                result.append(0.0)
-                result.append(0.0)
-    
-    # print(len(result))
-    return result
-
-def format_landmark_data_2d(landmarks, handednesses):
-    """
-    Returns a 2D list: [[left_hand_data], [right_hand_data]]
-    Each hand data includes: [hand_id, x1, y1, z1, x2, y2, z2, ..., x21, y21, z21]
-    Missing hands are filled with zeros.
-    """
-    result = [[], []]  # [left_hand, right_hand]
-    
-    # Create a dictionary to store hand data by hand_id
-    hand_data = {}
-    
-    # Process detected hands
-    for hand_index in range(len(landmarks)):
-        hand_landmarks = landmarks[hand_index]
-        handedness_info = handednesses[hand_index][0]
-        handedness = handedness_info['categoryName']
-        hand_id = 0 if handedness == "Left" else 1
-        
-        hand_data[hand_id] = hand_landmarks
-    
-    # Build data for both hands
-    for hand_id in [0, 1]:
-        # result[hand_id].append(hand_id)
-        
-        if hand_id in hand_data:
-            # Hand was detected, add actual coordinates
-            for landmark in hand_data[hand_id]:
-                result[hand_id].append(landmark['x'])
-                result[hand_id].append(landmark['y'])
-                result[hand_id].append(landmark['z'])
-        else:
-            # Hand was not detected, add zeros for all 21 landmarks
-            for _ in range(21):
-                result[hand_id].append(0.0)
-                result[hand_id].append(0.0)
-                result[hand_id].append(0.0)
-    
-    return result  # [[0, x1, y1, z1, ..., x21, y21, z21], [1, x1, y1, z1, ..., x21, y21, z21]]
+# model = load_model("models/hand_gesture_modelv6.keras")
+# words = json.load(open("word_mapping.json", "r"))
+# length_of_gesture = parameters["data_per_frame"] * parameters["frames_per_gesture"]
+# threshold = 0.8
 
 @app.route("/")
 def home():
@@ -104,185 +151,286 @@ def home():
 def video():
     return render_template("by-video.html")
 
-@app.route("/upload-video", methods=["POST"])
-def upload_video():
-    print(flask.request.files)
-    if 'video' not in flask.request.files:
-        return {"message": "No video file uploaded"}, 400
-    
-    video_file = flask.request.files['video']
-    video_file.save("uploads/uploaded_video.mp4")
-    process_video("uploads/uploaded_video.mp4")
-    
-    
-    
-    return {"message": "Video uploaded successfully!"}, 200
+
+@app.route("/push_landmarks", methods=["POST"])
+def push_landmarks():
+    data = flask.request.get_json()
+    print(data)
+    return {"message": "Landmarks received successfully!"}, 200
+
+def clear_cache():
+    data_cache.clear()
+
+live_state = {
+    "first_frame": None,
+    "frame_index": 0,
+    "last_pos_right": None,
+    "last_pos_left": None,
+}
+
+THRESHOLD = 0.8
 
 
-
-def process_video(video_path):
-    # DATA GENERATION. SHOULD ONLY BE RUN TO GENERATE NEW DATA
-
-    BaseOptions = mp.tasks.BaseOptions
-    HandLandmarker = mp.tasks.vision.HandLandmarker
-    HandLandmarkerOptions = mp.tasks.vision.HandLandmarkerOptions
-    HandLandmarkerResult = mp.tasks.vision.HandLandmarkerResult
-    VisionRunningMode = mp.tasks.vision.RunningMode
-
-    options = HandLandmarkerOptions(
-        base_options=BaseOptions(model_asset_path='hand_landmarker.task'),
-        running_mode=VisionRunningMode.VIDEO,
-        # delegate=python.BaseOptions.Delegate.GPU,
-        # inference_delegate=python.BaseOptions.Delegate.GPU,
-        # min_hand_presence_confidence=0.75,
-        # min_hand_detection_confidence=0.75,
-        num_hands=2)
-        
-    landmarks = ["WRIST_x","WRIST_y","WRIST_z","THUMB_CMC_x","THUMB_CMC_y","THUMB_CMC_z","THUMB_MCP_x","THUMB_MCP_y","THUMB_MCP_z","THUMB_IP_x","THUMB_IP_y","THUMB_IP_z","THUMB_TIP_x","THUMB_TIP_y","THUMB_TIP_z","INDEX_FINGER_MCP_x","INDEX_FINGER_MCP_y","INDEX_FINGER_MCP_z","INDEX_FINGER_PIP_x","INDEX_FINGER_PIP_y","INDEX_FINGER_PIP_z","INDEX_FINGER_DIP_x","INDEX_FINGER_DIP_y","INDEX_FINGER_DIP_z","INDEX_FINGER_TIP_x","INDEX_FINGER_TIP_y","INDEX_FINGER_TIP_z","MIDDLE_FINGER_MCP_x","MIDDLE_FINGER_MCP_y","MIDDLE_FINGER_MCP_z","MIDDLE_FINGER_PIP_x","MIDDLE_FINGER_PIP_y","MIDDLE_FINGER_PIP_z","MIDDLE_FINGER_DIP_x","MIDDLE_FINGER_DIP_y","MIDDLE_FINGER_DIP_z","MIDDLE_FINGER_TIP_x","MIDDLE_FINGER_TIP_y","MIDDLE_FINGER_TIP_z","RING_FINGER_MCP_x","RING_FINGER_MCP_y","RING_FINGER_MCP_z","RING_FINGER_PIP_x","RING_FINGER_PIP_y","RING_FINGER_PIP_z","RING_FINGER_DIP_x","RING_FINGER_DIP_y","RING_FINGER_DIP_z","RING_FINGER_TIP_x","RING_FINGER_TIP_y","RING_FINGER_TIP_z","PINKY_MCP_x","PINKY_MCP_y","PINKY_MCP_z","PINKY_PIP_x","PINKY_PIP_y","PINKY_PIP_z","PINKY_DIP_x","PINKY_DIP_y","PINKY_DIP_z","PINKY_TIP_x","PINKY_TIP_y","PINKY_TIP_z"]
-    landmarks_np = np.array(landmarks).flatten()
-    landmark_columns = landmarks_np.tolist()
-    landmark_columns.insert(0, 'frame_index')
-    landmark_columns.insert(1, 'hand_index')
-    
-    cap = cv2.VideoCapture(video_path)
-    
-    video_frame_rate = cap.get(cv2.CAP_PROP_FPS)
-    total_frames = cap.get(cv2.CAP_PROP_FRAME_COUNT)
-    
-    first_frame = 0
-    has_changed = False
-    
-    gesture_data = pd.DataFrame(columns=landmark_columns)
-    
-    with HandLandmarker.create_from_options(options) as landmarker:
-        for frame_index in range(0, int(total_frames)):
-            cap.set(cv2.CAP_PROP_POS_FRAMES, frame_index)
-            _, frame = cap.read()
-            
-            if _:
-                current_timestamp = int((frame_index / video_frame_rate) * 1000)
-                mp_image = mp.Image(image_format=mp.ImageFormat.SRGB, data=frame)
-                result = landmarker.detect_for_video(mp_image, current_timestamp)
-                landmarks = result.hand_landmarks
-                num_hands = len(landmarks)
-                
-                for i in range(num_hands):
-                    landmark = landmarks[i]
-                    current_handedness = result.handedness[i][0].index
-                    
-                    nodes = []
-                    if first_frame == 0 and not has_changed:
-                        has_changed = True
-                        first_frame = frame_index
-                    
-                    extra_nodes = []
-                    
-                    nodes.append(frame_index - first_frame)
-                    extra_nodes.append(frame_index - first_frame)
-                    # Right: 0, Left: 1
-                    nodes.append(current_handedness)
-                    extra_nodes.append(0 if current_handedness == 1 else 1)
-                        
-                    
-                    for pos in landmark:
-                        try:
-                            nodes.extend((pos.x, pos.y, pos.z))
-                            extra_nodes.extend((0, 0, 0))
-                        
-                        except:
-                            print("no data")
-                    
-                    if num_hands == 1 and current_handedness == 1:
-                        gesture_data = pd.concat([gesture_data, pd.DataFrame([extra_nodes], columns=landmark_columns)])
-                    
-                    gesture_data = pd.concat([gesture_data, pd.DataFrame([nodes], columns=landmark_columns)])
-
-                    if num_hands == 1 and current_handedness == 0:
-                        gesture_data = pd.concat([gesture_data, pd.DataFrame([extra_nodes], columns=landmark_columns)])
-                        
-        gesture_data.to_csv(f"uploads/processed_landmarks.csv", index=False)
-        
-        out_df = pd.DataFrame()
-
-    df = pd.read_csv("uploads/processed_landmarks.csv")
-    
-    max_length = 186
-    
-    if len(df) < max_length:
-        current_frame = len(df)
-        for i in range((max_length - len(df)) // 2):
-            df.loc[len(df)] = [current_frame+1, 0] + np.zeros(len(df.columns)-2).tolist()
-            df.loc[len(df)] = [current_frame+1, 1] + np.zeros(len(df.columns)-2).tolist()
-    
-    df = df.reset_index(drop=True)
-    
-    word = "dummy string"
-    
-    new_df = pd.DataFrame([df.to_numpy().flatten()], columns=[f"row{index}_{col}" for index in df.index for col in df.columns])
-    new_df.insert(0, 'word', word)
-    
-    out_df = pd.concat([out_df, new_df], ignore_index=True)
-    
-    
-    out_df.to_csv("uploads/final.csv", index=False)
-    pred = predict()
-    print(pred)
-    print(np.argmax(pred, axis=1)[0])
-    
-def predict():
-    df = pd.read_csv("uploads/final.csv")
-    
-    X_test = df.loc[:, ~df.columns.str.contains("frame_index|hand_index")].iloc[:, 1:].to_numpy(dtype=np.float32)
-
-    X_test = X_test.reshape(-1, 186, 63)
-
-    return model.predict(X_test)
+def reset_live_state():
+    data_cache.clear()
+    live_state["first_frame"] = None
+    live_state["frame_index"] = 0
+    live_state["last_pos_right"] = None
+    live_state["last_pos_left"] = None
 
 
-# @app.route("/push_landmarks", methods=["POST"])
-# def push_landmarks():
-#     data = flask.request.get_json()
-#     print(data)
-#     return {"message": "Landmarks received successfully!"}, 200
+def js_handedness_to_index(handedness):
+    """
+    MediaPipe JS usually sends categoryName: 'Right' or 'Left'.
+    Your Python training code used:
+      0 = Right
+      1 = Left
+    """
+    if isinstance(handedness, list):
+        handedness = handedness[0]
 
-@socketio.on('landmark_data')
+    label = handedness.get("categoryName") or handedness.get("displayName")
+
+    if label == "Right":
+        return 0
+    if label == "Left":
+        return 1
+
+    # Fallback if JS sends index directly
+    return handedness.get("index")
+
+
+def landmark_tuple(lm):
+    return (float(lm["x"]), float(lm["y"]), float(lm["z"]))
+
+
+def make_hand_features(landmarks, hand_index):
+    """
+    Returns 21 * 6 = 126 values for one hand:
+    rel_x, rel_y, rel_z, speed_x, speed_y, speed_z
+    """
+    origin_x = float(landmarks[0]["x"])
+    origin_y = float(landmarks[0]["y"])
+    origin_z = float(landmarks[0]["z"])
+
+    state_key = "last_pos_right" if hand_index == 0 else "last_pos_left"
+    last_pos = live_state[state_key]
+
+    current_positions = []
+
+    for i, lm in enumerate(landmarks):
+        x = float(lm["x"])
+        y = float(lm["y"])
+        z = float(lm["z"])
+
+        if i == 0:
+            current_positions.append((x, y, z))
+        else:
+            current_positions.append((x - origin_x, y - origin_y, z - origin_z))
+
+    if last_pos is None:
+        # Match training behavior: first detected frame has zero speed.
+        last_pos = current_positions.copy()
+
+    features = []
+
+    for i, lm in enumerate(landmarks):
+        x = float(lm["x"])
+        y = float(lm["y"])
+        z = float(lm["z"])
+
+        rel_x = x - origin_x
+        rel_y = y - origin_y
+        rel_z = z - origin_z
+
+        if i == 0:
+            speed_x = last_pos[i][0] - x
+            speed_y = last_pos[i][1] - y
+            speed_z = last_pos[i][2] - z
+        else:
+            speed_x = last_pos[i][0] - rel_x
+            speed_y = last_pos[i][1] - rel_y
+            speed_z = last_pos[i][2] - rel_z
+
+        features.extend([rel_x, rel_y, rel_z, speed_x, speed_y, speed_z])
+
+    live_state[state_key] = current_positions
+    return features
+
+
+def format_live_frame(landmarks_list, handednesses_list):
+    """
+    Creates one raw frame of length 255:
+      frame_index, right_present, left_present,
+      126 right-hand features,
+      126 left-hand features
+
+    If no hands are detected, returns:
+      frame_index, 0, 0,
+      126 zeros for right hand,
+      126 zeros for left hand
+    """
+    frame_index = live_state["frame_index"]
+
+    if live_state["first_frame"] is None:
+        live_state["first_frame"] = frame_index
+
+    relative_frame_index = frame_index - live_state["first_frame"]
+    live_state["frame_index"] += 1
+
+    right_features = [0.0] * 126
+    left_features = [0.0] * 126
+
+    right_present = 0
+    left_present = 0
+
+    # Allows empty landmarks/handedness lists
+    if landmarks_list and handednesses_list:
+        for landmarks, handedness in zip(landmarks_list, handednesses_list):
+            hand_index = js_handedness_to_index(handedness)
+
+            if hand_index == 0:
+                right_present = 1
+                right_features = make_hand_features(landmarks, 0)
+            elif hand_index == 1:
+                left_present = 1
+                left_features = make_hand_features(landmarks, 1)
+
+    row = [relative_frame_index, right_present, left_present]
+    row.extend(right_features)
+    row.extend(left_features)
+
+    if len(row) != RAW_DATA_PER_FRAME:
+        raise ValueError(
+            f"Live raw frame mismatch: got {len(row)}, expected {RAW_DATA_PER_FRAME}"
+        )
+
+    return row
+
+# def format_live_frame(landmarks_list, handednesses_list):
+#     """
+#     Creates one raw frame of length 255:
+#       frame_index, right_present, left_present,
+#       126 right-hand features,
+#       126 left-hand features
+#     """
+#     frame_index = live_state["frame_index"]
+
+#     if live_state["first_frame"] is None:
+#         live_state["first_frame"] = frame_index
+
+#     relative_frame_index = frame_index - live_state["first_frame"]
+#     live_state["frame_index"] += 1
+
+#     right_features = [0.0] * 126
+#     left_features = [0.0] * 126
+
+#     right_present = 0
+#     left_present = 0
+
+#     for landmarks, handedness in zip(landmarks_list, handednesses_list):
+#         hand_index = js_handedness_to_index(handedness)
+
+#         if hand_index == 0:
+#             right_present = 1
+#             right_features = make_hand_features(landmarks, 0)
+#         elif hand_index == 1:
+#             left_present = 1
+#             left_features = make_hand_features(landmarks, 1)
+
+#     row = [relative_frame_index, right_present, left_present]
+#     row.extend(right_features)
+#     row.extend(left_features)
+
+#     if len(row) != RAW_DATA_PER_FRAME:
+#         raise ValueError(f"Live raw frame mismatch: got {len(row)}, expected {RAW_DATA_PER_FRAME}")
+
+#     return row
+
+
+def predict_live():
+    raw = np.array(list(data_cache), dtype=np.float32)
+
+    X = raw.reshape(1, MAX_FRAMES, RAW_DATA_PER_FRAME)
+    X = add_velocity(X)
+    
+    df = pd.DataFrame(X.reshape(1, -1))
+    df.to_csv("live_cache_debug.csv", index=False)
+
+    if X.shape[1:] != model.input_shape[1:]:
+        raise ValueError(f"Live input mismatch. Got {X.shape}, model expects {model.input_shape}")
+
+    pred = model.predict(X, verbose=0)[0]
+
+    top = sorted(
+        [(i, float(p)) for i, p in enumerate(pred)],
+        key=lambda x: x[1],
+        reverse=True
+    )
+
+    predicted_index = int(np.argmax(pred))
+    confidence = float(np.max(pred))
+    predicted_word = words[str(predicted_index)]
+
+    return {
+        "predicted_word": predicted_word,
+        "confidence": confidence,
+        "class_index": predicted_index,
+        "top_predictions": [
+            {
+                "class_index": int(i),
+                "word": words[str(i)],
+                "confidence": float(conf),
+            }
+            for i, conf in top[:5]
+        ],
+    }
+
+
+@socketio.on("landmark_data")
 def handle_landmarks(data):
-    # print(f"Received: {data['handednesses']}")
-    emit('response', {'status': 'received'})
-    print(len(data_cache))
-    formatted_landmark = format_landmark_data_2d(data['landmarks'], data['handednesses'])
-    data_cache.append(formatted_landmark)
-    
-    flattened = []
-    for i, frame_data in enumerate(data_cache):
-        flattened.append(i)
-        # flattened.extend(frame_data[0])
-        flattened.append(i)
-        # flattened.extend(frame_data[1])
-    
-    # if len(flattened) == 7150:
-    #     df = np.array(flattened)
-    #     np.savetxt("landmark_data.csv", [df], delimiter=",")
-    
-    if len(data_cache) == 186:
-        try:
-            d = pd.DataFrame([flattened])
-            d = d.iloc[:, 1:].to_numpy(dtype=np.float32)
+    try:
+        landmarks = data.get("landmarks", [])
+        handednesses = data.get("handednesses", [])
 
-            d = d.reshape(-1, 186, 63)
-            print(d.shape)
-            
-            
-            pred = model.predict(d)
-            if (np.max(pred) > threshold):
-                predicted_word = words[str(np.argmax(pred))]
-                print(f"Predicted word: {predicted_word} with confidence {np.max(pred)}")
-            # print(pred)
-            # print(np.argmax(pred, axis=1)[0])
-            time.sleep(0.1)  # Simulate processing time
-        
-        except Exception as e:
-            print(f"Error during prediction: {e}")
+        # if len(landmarks) == 0:
+        #     emit("prediction", {"status": "no_hands"})
+            # return
+
+        frame = format_live_frame(landmarks, handednesses)
+        data_cache.append(frame)
+
+        if len(data_cache) < MAX_FRAMES:
+            emit("prediction", {
+                "status": "warming_up",
+                "frames": len(data_cache),
+                "needed": MAX_FRAMES,
+            })
+            return
+
+        result = predict_live()
+        result["status"] = "prediction"
+
+        if result["confidence"] >= THRESHOLD:
+            emit("prediction", result)
+        else:
+            emit("prediction", {
+                **result,
+                "status": "low_confidence",
+            })
+
+    except Exception as e:
+        print("Live prediction error:", e)
+        emit("prediction", {
+            "status": "error",
+            "error": str(e),
+        })
+
+
+@socketio.on("reset_live")
+def handle_reset_live():
+    reset_live_state()
+    emit("prediction", {"status": "reset"})
     
     
 

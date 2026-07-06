@@ -33,6 +33,24 @@ socket.on("disconnect", () => {
   console.log("Disconnected from server");
 });
 
+socket.on("prediction", (data) => {
+  console.log("Prediction:", data);
+
+  const output = document.getElementById("prediction");
+
+  if (!output) return;
+
+  if (data.status === "prediction" || data.status === "low_confidence") {
+    output.innerText = `${data.predicted_word} (${(data.confidence * 100).toFixed(1)}%)`;
+  } else if (data.status === "warming_up") {
+    output.innerText = `Warming up: ${data.frames}/${data.needed}`;
+  } else if (data.status === "no_hands") {
+    output.innerText = "No hands detected";
+  } else if (data.status === "error") {
+    output.innerText = `Error: ${data.error}`;
+  }
+});
+
 // NOTE: These are typically provided by Mediapipe drawing utils in your HTML.
 // Make sure you have something like:
 // import { drawConnectors, drawLandmarks } from "...";
@@ -187,6 +205,13 @@ function postLandmarks(landmarks, handednesses) {
   });
 }
 
+function postEmptyVideoFeed() {
+  socket.emit("landmark_data", {
+    landmarks: [],
+    landmarks: [],
+  });
+}
+
 async function predictWebcam() {
   // Match canvas size to video
   canvasElement.style.width = video.videoWidth + "px";
@@ -208,17 +233,24 @@ async function predictWebcam() {
   canvasCtx.save();
   canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
 
+  // console.log(results.landmarks.length);
+
   if (results?.landmarks) {
     if (results.landmarks.length > 0) {
       console.log(results);
       postLandmarks(results.landmarks, results.handednesses);
-    }
-    for (const landmarks of results.landmarks) {
-      drawConnectors(canvasCtx, landmarks, HAND_CONNECTIONS, {
-        color: "#00FF00",
-        lineWidth: 5,
-      });
-      drawLandmarks(canvasCtx, landmarks, { color: "#FF0000", lineWidth: 2 });
+
+      for (const landmarks of results.landmarks) {
+        drawConnectors(canvasCtx, landmarks, HAND_CONNECTIONS, {
+          color: "#00FF00",
+          lineWidth: 5,
+        });
+        drawLandmarks(canvasCtx, landmarks, { color: "#FF0000", lineWidth: 2 });
+      }
+    } else {
+      // no landmarks detected
+      // postEmptyVideoFeed();
+      // console.log("No landmarks detected");
     }
   }
 
