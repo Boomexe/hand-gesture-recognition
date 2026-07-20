@@ -4,14 +4,14 @@ import flask
 import numpy as np
 from tensorflow.keras.models import load_model
 import pandas as pd
-import time
 
 import sys
-from pathlib import Path
+
+from flask_socketio import SocketIO, emit
+from flask import render_template
 
 sys.path.append("D:/Coding/Projects/hand gesture recognition")
 from data_generation import DataGeneration
-# from data_generation import DataGeneration
 
 app = flask.Flask(__name__)
 
@@ -20,24 +20,21 @@ model = load_model("models/hand_gesture_modelv9.keras")
 with open("parameters.json", "r") as f:
     parameters = json.load(f)
 
-# Your notebook saves word_to_number as {index: word}, but JSON turns int keys into strings.
 words = parameters["word_to_number"]
 
 MAX_FRAMES = parameters["frames_per_gesture"]
 MODEL_DATA_PER_FRAME = parameters["data_per_frame"]
 RAW_DATA_PER_FRAME = MODEL_DATA_PER_FRAME // 2
 
-data_gen = DataGeneration(videos_path="")  # not needed for direct video paths
+data_gen = DataGeneration(videos_path="")
 
 is_model_working = False
 
 empty_in_a_row = 0
 
-
 def add_velocity(X):
     velocity = np.diff(X, axis=1, prepend=X[:, :1, :])
     return np.concatenate([X, velocity], axis=-1)
-
 
 def preprocess_video_from_upload(video_path):
     df = data_gen.generate(video_path)
@@ -125,32 +122,9 @@ def upload_video():
         print("Prediction error:", e)
         return {"message": "Prediction failed", "error": str(e)}, 500
 
-
-
-# import time
-# import flask
-# from flask import json
-from flask_socketio import SocketIO, emit
-from flask import render_template
-from collections import deque
-# import numpy as np
-# from tensorflow.keras.models import load_model
-# import pandas as pd
-# import mediapipe as mp
-# import cv2
-# import os
-# from util import format_landmark_data, format_landmark_data_2d, process_video
-
-# data_cache = deque(maxlen=parameters["frames_per_gesture"])
 data_cache = []
 
-# app = flask.Flask(__name__)
 socketio = SocketIO(app, cors_allowed_origins="*")
-
-# model = load_model("models/hand_gesture_modelv6.keras")
-# words = json.load(open("word_mapping.json", "r"))
-# length_of_gesture = parameters["data_per_frame"] * parameters["frames_per_gesture"]
-# threshold = 0.8
 
 @app.route("/")
 def home():
@@ -166,9 +140,6 @@ def push_landmarks():
     data = flask.request.get_json()
     print(data)
     return {"message": "Landmarks received successfully!"}, 200
-
-def clear_cache():
-    data_cache.clear()
 
 live_state = {
     "first_frame": None,
@@ -315,47 +286,6 @@ def format_live_frame(landmarks_list, handednesses_list):
         )
 
     return row
-
-# def format_live_frame(landmarks_list, handednesses_list):
-#     """
-#     Creates one raw frame of length 255:
-#       frame_index, right_present, left_present,
-#       126 right-hand features,
-#       126 left-hand features
-#     """
-#     frame_index = live_state["frame_index"]
-
-#     if live_state["first_frame"] is None:
-#         live_state["first_frame"] = frame_index
-
-#     relative_frame_index = frame_index - live_state["first_frame"]
-#     live_state["frame_index"] += 1
-
-#     right_features = [0.0] * 126
-#     left_features = [0.0] * 126
-
-#     right_present = 0
-#     left_present = 0
-
-#     for landmarks, handedness in zip(landmarks_list, handednesses_list):
-#         hand_index = js_handedness_to_index(handedness)
-
-#         if hand_index == 0:
-#             right_present = 1
-#             right_features = make_hand_features(landmarks, 0)
-#         elif hand_index == 1:
-#             left_present = 1
-#             left_features = make_hand_features(landmarks, 1)
-
-#     row = [relative_frame_index, right_present, left_present]
-#     row.extend(right_features)
-#     row.extend(left_features)
-
-#     if len(row) != RAW_DATA_PER_FRAME:
-#         raise ValueError(f"Live raw frame mismatch: got {len(row)}, expected {RAW_DATA_PER_FRAME}")
-
-#     return row
-
 
 def predict_live():
     raw = np.array(list(data_cache), dtype=np.float32)
@@ -507,6 +437,3 @@ if __name__ == '__main__':
     # print(np.argmax(pred, axis=1)[0])
     
     socketio.run(app, host='localhost', port=8000, debug=True)
-
-# if __name__ == "__main__":
-#     app.run(debug=True)
