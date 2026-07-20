@@ -48,6 +48,8 @@ socket.on("prediction", (data) => {
     output.innerText = "No hands detected";
   } else if (data.status === "error") {
     output.innerText = `Error: ${data.error}`;
+  } else if (data.status === "no_hands") {
+    output.innerText = "No hands detected";
   }
 });
 
@@ -208,12 +210,11 @@ function postLandmarks(landmarks, handednesses) {
 function postEmptyVideoFeed() {
   socket.emit("landmark_data", {
     landmarks: [],
-    landmarks: [],
+    handednesses: [],
   });
 }
 
 async function predictWebcam() {
-  // Match canvas size to video
   canvasElement.style.width = video.videoWidth + "px";
   canvasElement.style.height = video.videoHeight + "px";
   canvasElement.width = video.videoWidth;
@@ -225,32 +226,42 @@ async function predictWebcam() {
   }
 
   const startTimeMs = performance.now();
-  if (lastVideoTime !== video.currentTime) {
+  const isNewVideoFrame = lastVideoTime !== video.currentTime;
+
+  if (isNewVideoFrame) {
     lastVideoTime = video.currentTime;
     results = handLandmarker.detectForVideo(video, startTimeMs);
+
+    if (results?.landmarks) {
+      if (results.landmarks.length > 0) {
+        postLandmarks(results.landmarks, results.handednesses);
+      } else {
+        postEmptyVideoFeed();
+        console.log("No landmarks detected");
+      }
+    }
   }
 
+  // Draw every requestAnimationFrame using latest results
   canvasCtx.save();
-  canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
-
-  // console.log(results.landmarks.length);
+  canvasCtx.clearRect(
+    0,
+    0,
+    canvasElement.width,
+    canvasElement.height
+  );
 
   if (results?.landmarks) {
-    if (results.landmarks.length > 0) {
-      console.log(results);
-      postLandmarks(results.landmarks, results.handednesses);
+    for (const landmarks of results.landmarks) {
+      drawConnectors(canvasCtx, landmarks, HAND_CONNECTIONS, {
+        color: "#00FF00",
+        lineWidth: 5,
+      });
 
-      for (const landmarks of results.landmarks) {
-        drawConnectors(canvasCtx, landmarks, HAND_CONNECTIONS, {
-          color: "#00FF00",
-          lineWidth: 5,
-        });
-        drawLandmarks(canvasCtx, landmarks, { color: "#FF0000", lineWidth: 2 });
-      }
-    } else {
-      // no landmarks detected
-      // postEmptyVideoFeed();
-      // console.log("No landmarks detected");
+      drawLandmarks(canvasCtx, landmarks, {
+        color: "#FF0000",
+        lineWidth: 2,
+      });
     }
   }
 

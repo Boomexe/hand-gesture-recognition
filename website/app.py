@@ -4,6 +4,7 @@ import flask
 import numpy as np
 from tensorflow.keras.models import load_model
 import pandas as pd
+import time
 
 import sys
 from pathlib import Path
@@ -27,6 +28,10 @@ MODEL_DATA_PER_FRAME = parameters["data_per_frame"]
 RAW_DATA_PER_FRAME = MODEL_DATA_PER_FRAME // 2
 
 data_gen = DataGeneration(videos_path="")  # not needed for direct video paths
+
+is_model_working = False
+
+empty_in_a_row = 0
 
 
 def add_velocity(X):
@@ -58,12 +63,15 @@ def preprocess_video_from_upload(video_path):
     X = df.to_numpy(dtype=np.float32)
     X = X.reshape(1, MAX_FRAMES, RAW_DATA_PER_FRAME)
     X = add_velocity(X)
+    # print(X.shape)
 
     if X.shape[1:] != model.input_shape[1:]:
         raise ValueError(
             f"Final model input mismatch. Got {X.shape}, model expects {model.input_shape}."
         )
 
+    df2 = pd.DataFrame(X.squeeze())
+    df2.to_csv("uploaded_video_debug.csv", index=False)
     return X
 
 @app.route("/upload-video", methods=["POST"])
@@ -133,7 +141,8 @@ from collections import deque
 # import os
 # from util import format_landmark_data, format_landmark_data_2d, process_video
 
-data_cache = deque(maxlen=parameters["frames_per_gesture"])
+# data_cache = deque(maxlen=parameters["frames_per_gesture"])
+data_cache = []
 
 # app = flask.Flask(__name__)
 socketio = SocketIO(app, cors_allowed_origins="*")
@@ -275,7 +284,7 @@ def format_live_frame(landmarks_list, handednesses_list):
     if live_state["first_frame"] is None:
         live_state["first_frame"] = frame_index
 
-    relative_frame_index = frame_index - live_state["first_frame"]
+    relative_frame_index = frame_index #- live_state["first_frame"]
     live_state["frame_index"] += 1
 
     right_features = [0.0] * 126
@@ -354,7 +363,7 @@ def predict_live():
     X = raw.reshape(1, MAX_FRAMES, RAW_DATA_PER_FRAME)
     X = add_velocity(X)
     
-    df = pd.DataFrame(X.reshape(1, -1))
+    df = pd.DataFrame(X.reshape(1, -1).reshape(MAX_FRAMES, MODEL_DATA_PER_FRAME))
     df.to_csv("live_cache_debug.csv", index=False)
 
     if X.shape[1:] != model.input_shape[1:]:
@@ -385,39 +394,97 @@ def predict_live():
             for i, conf in top[:5]
         ],
     }
+    
+    
+def find_last_row(cache):
+    first_trailing_empty = None
 
+    for i in range(len(cache) - 1, -1, -1):
+        # print(frame_is_empty(cache[i][5:]), "checking if frame is empty")
+        if frame_is_empty(cache[i][5:]):
+            first_trailing_empty = i
+        else:
+            break
+
+    return first_trailing_empty
+
+# a = [[4, 0, 1, 0, 0], [0, 4, 1, 1, 5], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]]
+# print(find_last_row(a), "last row index aaaaa")
+
+def frame_is_empty(frame) -> bool:
+    return all(val == 0 for val in frame)
 
 @socketio.on("landmark_data")
-def handle_landmarks(data):
+def handle_live_landmarks(data):
+    global is_model_working
     try:
         landmarks = data.get("landmarks", [])
         handednesses = data.get("handednesses", [])
-
+        
         # if len(landmarks) == 0:
         #     emit("prediction", {"status": "no_hands"})
             # return
 
         frame = format_live_frame(landmarks, handednesses)
-        data_cache.append(frame)
+        # print(frame)
+        
+        if len(data_cache) < MAX_FRAMES or frame_is_empty(frame[5:]): # 5 is a random number thats safe i think so we don't check stuff like frame index
+            data_cache.append(frame)
+        else:
+            last_row_index = find_last_row(data_cache)
+            # print(last_row_index, "last row index")
+            
+            if last_row_index is not None:
+                data_cache[last_row_index] = frame
+            
+            else:
+                data_cache.append(frame)
+        
+        
+        # if len(data_cache) > MAX_FRAMES:
+        while len(data_cache) > MAX_FRAMES:
+            data_cache.pop(0)
+        
+        first_frame = data_cache[0][0]
+        for i, val in enumerate(data_cache):
+            data_cache[i][0] = data_cache[i][0] - first_frame
 
+        # print(np.array(data_cache).shape, "frames in cache")
+        # print("number of zero frames:", MAX_FRAMES - find_last_row(data_cache))
+        
         if len(data_cache) < MAX_FRAMES:
             emit("prediction", {
                 "status": "warming_up",
                 "frames": len(data_cache),
                 "needed": MAX_FRAMES,
             })
+            # print(time.time(), "warming up still")
+            
             return
 
-        result = predict_live()
-        result["status"] = "prediction"
+        if not is_model_working:
+            print(not frame_is_empty(data_cache[0][5:]), "checking if first frame is empty")
+            if len(data_cache) >= MAX_FRAMES:
+                if not frame_is_empty(data_cache[0][5:]):
+                    # print(time.time(), "predicting now")
+                    is_model_working = True
+                    result = predict_live()
+                    result["status"] = "prediction"
+                    # print(time.time(), "predicted")
+                    is_model_working = False
 
-        if result["confidence"] >= THRESHOLD:
-            emit("prediction", result)
-        else:
-            emit("prediction", {
-                **result,
-                "status": "low_confidence",
-            })
+                    if result["confidence"] >= THRESHOLD:
+                        emit("prediction", result)
+                    else:
+                        emit("prediction", {
+                            **result,
+                            "status": "low_confidence",
+                        })
+                
+                else:
+                    emit("prediction", {
+                        "status": "no_hands",
+                    })
 
     except Exception as e:
         print("Live prediction error:", e)
