@@ -4,6 +4,7 @@ import flask
 import numpy as np
 from tensorflow.keras.models import load_model
 import pandas as pd
+import time
 
 import sys
 
@@ -30,7 +31,12 @@ data_gen = DataGeneration(videos_path="")
 
 is_model_working = False
 
-empty_in_a_row = 0
+consecutive_empty_frames = 0
+MAX_CONSECUTIVE_EMPTY_FRAMES = 20
+
+data_cache = []
+
+socketio = SocketIO(app, cors_allowed_origins="*")
 
 def add_velocity(X):
     velocity = np.diff(X, axis=1, prepend=X[:, :1, :])
@@ -121,10 +127,6 @@ def upload_video():
     except Exception as e:
         print("Prediction error:", e)
         return {"message": "Prediction failed", "error": str(e)}, 500
-
-data_cache = []
-
-socketio = SocketIO(app, cors_allowed_origins="*")
 
 @app.route("/")
 def home():
@@ -344,9 +346,15 @@ def find_last_row(cache):
 def frame_is_empty(frame) -> bool:
     return all(val == 0 for val in frame)
 
+def empty_frame() -> list:
+    return [0.0] * RAW_DATA_PER_FRAME
+
+# def flush_frames()
+
 @socketio.on("landmark_data")
 def handle_live_landmarks(data):
-    global is_model_working
+    # print(time.time())
+    global is_model_working, consecutive_empty_frames, data_cache
     try:
         landmarks = data.get("landmarks", [])
         handednesses = data.get("handednesses", [])
@@ -356,19 +364,41 @@ def handle_live_landmarks(data):
             # return
 
         frame = format_live_frame(landmarks, handednesses)
-        # print(frame)
+        added_this_frame = False
+        is_this_frame_empty = frame_is_empty(frame[5:])
         
-        if len(data_cache) < MAX_FRAMES or frame_is_empty(frame[5:]): # 5 is a random number thats safe i think so we don't check stuff like frame index
+        if consecutive_empty_frames > MAX_CONSECUTIVE_EMPTY_FRAMES and not frame_is_empty(data_cache[0][5:]):
+            data_cache.clear()
             data_cache.append(frame)
+            consecutive_empty_frames = 0
+            for i in range(MAX_FRAMES-1):
+                data_cache.append(empty_frame())
+            added_this_frame = True
+            print(time.time(), "Clearing cache due to too many empty frames")
+            
+        if is_this_frame_empty:
+            consecutive_empty_frames += 1
+        
+        # Skips "warming up" phase
+        if len(data_cache) == 0 and not added_this_frame:
+            for i in range(MAX_FRAMES):
+                data_cache.append(empty_frame())
+            added_this_frame = True
+        
+        if (len(data_cache) < MAX_FRAMES or is_this_frame_empty and not added_this_frame): # 5 is a random number thats safe i think so we don't check stuff like frame index
+            data_cache.append(frame)
+            added_this_frame = True
         else:
             last_row_index = find_last_row(data_cache)
             # print(last_row_index, "last row index")
             
             if last_row_index is not None:
                 data_cache[last_row_index] = frame
+                added_this_frame = True
             
             else:
                 data_cache.append(frame)
+                added_this_frame = True
         
         
         # if len(data_cache) > MAX_FRAMES:
@@ -391,9 +421,9 @@ def handle_live_landmarks(data):
             # print(time.time(), "warming up still")
             
             return
-
+        
         if not is_model_working:
-            print(not frame_is_empty(data_cache[0][5:]), "checking if first frame is empty")
+            # print(not frame_is_empty(data_cache[0][5:]), "checking if first frame is empty")
             if len(data_cache) >= MAX_FRAMES:
                 if not frame_is_empty(data_cache[0][5:]):
                     # print(time.time(), "predicting now")
@@ -403,6 +433,7 @@ def handle_live_landmarks(data):
                     # print(time.time(), "predicted")
                     is_model_working = False
 
+                    # print("pred time:", time.time())
                     if result["confidence"] >= THRESHOLD:
                         emit("prediction", result)
                     else:

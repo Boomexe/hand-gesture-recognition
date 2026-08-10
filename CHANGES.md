@@ -5,3 +5,5 @@ TO DO STUFF:
 
 - get rid of delay between gestures by instead of waiting for empty frames to push out the old frames, keep a count of how many empty frames were sent in a row.
   if maybe 10-20 or so frames are detected in a row as "empty," then we can discard the current data cache and populate with zeros.
+
+  - BUG WITH ABOVE: (on line 370-377). this logic is causing frame index to completely mess up for some reason.
