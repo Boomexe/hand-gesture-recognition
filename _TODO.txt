@@ -1,1 +1,2 @@
-1. Normalize frames for gesture data output (example, videos that are 30FPS vs 60FPS vs 24FPS) --> predicted solution is to extract from each frame, then afterwards resample landmarks using interpolation
+1. Normalize frames for gesture data output (example, videos that are 30FPS vs 60FPS vs 24FPS) --> predicted solution is to extract from each frame, 
+then afterwards resample landmarks using interpolation

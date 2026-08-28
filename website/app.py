@@ -32,7 +32,7 @@ data_gen = DataGeneration(videos_path="")
 is_model_working = False
 
 consecutive_empty_frames = 0
-MAX_CONSECUTIVE_EMPTY_FRAMES = 20
+MAX_CONSECUTIVE_EMPTY_FRAMES = 92
 
 data_cache = []
 
@@ -292,6 +292,10 @@ def format_live_frame(landmarks_list, handednesses_list):
 def predict_live():
     raw = np.array(list(data_cache), dtype=np.float32)
 
+    # Derive frame indexes from cache order so zero-filled placeholders and
+    # captured frames share one monotonic timeline without mutating the cache.
+    raw[:, 0] = np.arange(len(raw), dtype=np.float32)
+
     X = raw.reshape(1, MAX_FRAMES, RAW_DATA_PER_FRAME)
     X = add_velocity(X)
     
@@ -381,8 +385,9 @@ def handle_live_landmarks(data):
         
         # Skips "warming up" phase
         if len(data_cache) == 0 and not added_this_frame:
-            for i in range(MAX_FRAMES):
+            for i in range(MAX_FRAMES-1):
                 data_cache.append(empty_frame())
+            data_cache.append(frame)
             added_this_frame = True
         
         if (len(data_cache) < MAX_FRAMES or is_this_frame_empty and not added_this_frame): # 5 is a random number thats safe i think so we don't check stuff like frame index
@@ -405,10 +410,6 @@ def handle_live_landmarks(data):
         while len(data_cache) > MAX_FRAMES:
             data_cache.pop(0)
         
-        first_frame = data_cache[0][0]
-        for i, val in enumerate(data_cache):
-            data_cache[i][0] = data_cache[i][0] - first_frame
-
         # print(np.array(data_cache).shape, "frames in cache")
         # print("number of zero frames:", MAX_FRAMES - find_last_row(data_cache))
         
