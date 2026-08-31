@@ -29,6 +29,15 @@
     "TWOMORE": 11,
     "YES": 12
   },
-  "frames_per_gesture": 93,
-  "data_per_frame": 510
+  "data_per_frame": 510,
+  "feature_schema_version": 2,
+  "motion_uses_timestamps": true,
+  "hand_order": [
+    "right",
+    "left"
+  ],
+  "framework": "pytorch",
+  "model_file": "hand_gesture_modelv10.pt",
+  "variable_length": true,
+  "max_live_frames": null
 }

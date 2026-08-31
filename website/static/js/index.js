@@ -162,27 +162,43 @@ if (hasGetUserMedia()) {
   console.warn("getUserMedia() is not supported by your browser");
 }
 
-function enableCam(event) {
+async function enableCam() {
   if (!handLandmarker) {
-    console.log("Wait! objectDetector not loaded yet.");
+    console.log("Wait! Hand landmarker is not loaded yet.");
     return;
   }
 
-  if (webcamRunning === true) {
+  if (webcamRunning) {
     webcamRunning = false;
-    if (enableWebcamButton) enableWebcamButton.innerText = "ENABLE PREDICTIONS";
-  } else {
-    webcamRunning = true;
-    if (enableWebcamButton)
-      enableWebcamButton.innerText = "DISABLE PREDICTIONS";
+    socket.emit("reset_live");
+    video.srcObject?.getTracks().forEach((track) => track.stop());
+    video.srcObject = null;
+    results = undefined;
+    lastVideoTime = -1;
+    if (enableWebcamButton) {
+      enableWebcamButton.innerText = "ENABLE PREDICTIONS";
+    }
+    return;
   }
 
-  const constraints = { video: true };
+  socket.emit("reset_live");
+  webcamRunning = true;
+  lastVideoTime = -1;
+  if (enableWebcamButton) {
+    enableWebcamButton.innerText = "DISABLE PREDICTIONS";
+  }
 
-  navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ video: true });
     video.srcObject = stream;
-    video.addEventListener("loadeddata", predictWebcam);
-  });
+    video.addEventListener("loadeddata", predictWebcam, { once: true });
+  } catch (error) {
+    webcamRunning = false;
+    if (enableWebcamButton) {
+      enableWebcamButton.innerText = "ENABLE PREDICTIONS";
+    }
+    console.error("Unable to start webcam", error);
+  }
 }
 
 let lastVideoTime = -1;
@@ -190,27 +206,19 @@ let results = undefined;
 
 console.log(video);
 
-function postLandmarks(landmarks, handednesses) {
-  // fetch("/push_landmarks", {
-  //   method: "POST",
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //   },
-  //   body: JSON.stringify(landmarks),
-  // })
-  //   .then((response) => response.json())
-  //   .then((data) => console.log("Success:", data))
-  //   .catch((error) => console.error("Error:", error));
+function postLandmarks(landmarks, handednesses, timestampMs) {
   socket.emit("landmark_data", {
     landmarks: landmarks,
     handednesses: handednesses,
+    timestampMs: timestampMs,
   });
 }
 
-function postEmptyVideoFeed() {
+function postEmptyVideoFeed(timestampMs) {
   socket.emit("landmark_data", {
     landmarks: [],
     handednesses: [],
+    timestampMs: timestampMs,
   });
 }
 
@@ -225,18 +233,22 @@ async function predictWebcam() {
     await handLandmarker.setOptions({ runningMode: "VIDEO" });
   }
 
-  const startTimeMs = performance.now();
+  const sourceTimestampMs = video.currentTime * 1000;
   const isNewVideoFrame = lastVideoTime !== video.currentTime;
 
   if (isNewVideoFrame) {
     lastVideoTime = video.currentTime;
-    results = handLandmarker.detectForVideo(video, startTimeMs);
+    results = handLandmarker.detectForVideo(video, sourceTimestampMs);
 
     if (results?.landmarks) {
       if (results.landmarks.length > 0) {
-        postLandmarks(results.landmarks, results.handednesses);
+        postLandmarks(
+          results.landmarks,
+          results.handednesses,
+          sourceTimestampMs,
+        );
       } else {
-        postEmptyVideoFeed();
+        postEmptyVideoFeed(sourceTimestampMs);
         console.log("No landmarks detected");
       }
     }

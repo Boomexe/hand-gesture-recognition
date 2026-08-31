@@ -1,2 +1,5 @@
 /uploads
 .live_cache_debug.csv
+/live_gesture_debug.csv
+/live_model_input_debug.csv
+/uploaded_raw_debug.csv

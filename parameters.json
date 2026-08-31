@@ -1,0 +1,43 @@
+{
+  "word_to_number": {
+    "0": "CLOSEEYES",
+    "1": "EYES",
+    "2": "HELLO",
+    "3": "MORE",
+    "4": "NO",
+    "5": "ORANGEEYES",
+    "6": "PIANO",
+    "7": "PLEASE",
+    "8": "RHINO3",
+    "9": "SOPHOMORE",
+    "10": "THANKYOU",
+    "11": "TWOMORE",
+    "12": "YES"
+  },
+  "numbered_unique_words": {
+    "CLOSEEYES": 0,
+    "EYES": 1,
+    "HELLO": 2,
+    "MORE": 3,
+    "NO": 4,
+    "ORANGEEYES": 5,
+    "PIANO": 6,
+    "PLEASE": 7,
+    "RHINO3": 8,
+    "SOPHOMORE": 9,
+    "THANKYOU": 10,
+    "TWOMORE": 11,
+    "YES": 12
+  },
+  "data_per_frame": 510,
+  "feature_schema_version": 2,
+  "motion_uses_timestamps": true,
+  "hand_order": [
+    "right",
+    "left"
+  ],
+  "framework": "pytorch",
+  "model_file": "hand_gesture_modelv10.pt",
+  "variable_length": true,
+  "max_live_frames": null
+}

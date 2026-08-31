@@ -1,9 +1,17 @@
-TO DO STUFF:
+# Changes
 
-- get rid of "warming up" phase by populating entire list with zeros instead of slowly adding frames one by one until we reach a length of 93
-(so like just begin with having 93 frames of zeros only)
+## Variable-length gesture migration
 
-- get rid of delay between gestures by instead of waiting for empty frames to push out the old frames, keep a count of how many empty frames were sent in a row.
-  if maybe 10-20 or so frames are detected in a row as "empty," then we can discard the current data cache and populate with zeros.
+- Removed the global gesture-frame count from active preprocessing, training,
+  uploaded-video prediction, and live prediction.
+- Cleaning now retains every detected frame and performs no padding or
+  truncation.
+- PyTorch training dynamically pads only within each mini-batch and masks those
+  temporary rows throughout the model.
+- Live empty frames remain gesture-boundary signals and never enter the feature
+  tensor or debug CSV.
+- `website/parameters.json` now declares variable-length input and has no default
+  live-frame cap.
 
-  - BUG WITH ABOVE: (on line 370-377). this logic is causing frame index to completely mess up for some reason.
+See `VARIABLE_LENGTH_MIGRATION.md` for implementation details and required
+retraining steps.

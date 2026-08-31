@@ -6,6 +6,8 @@ import math
 
 import pandas as pd
 
+from gesture_preprocessing import GestureFeatureBuilder
+
 class DataGeneration:
     def __init__(self, videos_path):
         self.videos_path = videos_path
@@ -55,12 +57,19 @@ class DataGeneration:
         self.landmark_columns.insert(2, 'left_present')
 
         self.target_words = [
+            "CLOSEEYES",
+            "EYES",
             "HELLO",
-            "THANK YOU",
-            "PLEASE",
             "MORE",
-            "YES",
             "NO",
+            "ORANGEEYES",
+            "PIANO",
+            "PLEASE",
+            "RHINO3",
+            "SOPHOMORE",
+            "THANKYOU",
+            "TWOMORE",
+            "YES",
         ]
     
     def normalize(self, landmark):
@@ -83,14 +92,13 @@ class DataGeneration:
     def generate_from_dataset(self, csv, rel_path, limit_count=False):
         count = 0
         for i, row in csv.iterrows():
-            found = False
-            for word in self.target_words:
-                # print(word.casefold()+".mp4", row['path'].casefold())
-                if word.casefold()+".mp4" in row['path'].casefold():
-                    found = True
-                    break
-                
-            if not found:
+            label = "".join(
+                character
+                for character in str(row.get("gloss", ""))
+                if character.isalnum()
+            ).casefold()
+            target_words = {word.casefold() for word in self.target_words}
+            if label not in target_words:
                 continue
             
             # if row['path'] != "4324249049090094-EYES.mp4":
@@ -109,157 +117,53 @@ class DataGeneration:
             if count > 5 and limit_count:
                 break
     
-    # read video input and generate landmarks
+    # Read a video and generate one row for each frame containing a detected hand.
     def generate(self, video_path):
         with self.HandLandmarker.create_from_options(self.options) as landmarker:
             cap = cv2.VideoCapture(video_path)
-            
             video_frame_rate = cap.get(cv2.CAP_PROP_FPS)
             total_frames = cap.get(cv2.CAP_PROP_FRAME_COUNT)
-            
-            first_frame = 0
-            has_changed = False
-            
-            gesture_data = pd.DataFrame(columns=self.landmark_columns)
-        
-            last_pos_right = []
-            last_pos_left = []
-            
-            for frame_index in range(0, int(total_frames)):
-                cap.set(cv2.CAP_PROP_POS_FRAMES, frame_index)
-                _, frame = cap.read()
-                
-                if _:
-                    current_timestamp = int((frame_index / video_frame_rate) * 1000)
-                    mp_image = mp.Image(image_format=mp.ImageFormat.SRGB, data=frame)
-                    result = landmarker.detect_for_video(mp_image, current_timestamp)
-                    landmarks = result.hand_landmarks
-                    num_hands = len(landmarks)
-                    is_first_frame_of_detection = True
-                    
-                    # NOTE: Does nothing if no hands are detected
-                    
-                    data = []
-                    
-                    # if num_hands == 0:
-                    #     data.append(frame_index - first_frame)
-                    #     data.extend([0,0]) # No hands are present
-                    #     data.extend([0.0] * 126) # No landmarks are present
-                    
-                    
-                    for i in range(num_hands):
-                        landmark = landmarks[i]
-                        current_handedness = result.handedness[i][0].index
-                        
-                        # Sets the first frame (when gesture starts) to the 0th frame
-                        if first_frame == 0 and not has_changed:
-                            has_changed = True
-                            first_frame = frame_index
-                        
-                        if i == 0:
-                            data.append(frame_index - first_frame)
-                            
-                            if current_handedness == 0 and num_hands == 1:
-                                data.extend([1,0]) # Only right hand is present
-                            
-                            elif current_handedness == 1 and num_hands == 1:
-                                data.extend([0,1]) # Only left hand is present
-                            
-                            else:
-                                data.extend([1,1]) # Right and left hand is present
-                        
-                        # This contains the data for the current hand
-                        nodes = []
-                        # This contains blank data (only of frame, current hand, and zeros)
-                        extra_nodes = []
-                        
-                        # SPEED
-                        origin_x, origin_y, origin_z = landmark[0].x, landmark[0].y, landmark[0].z
-                        
-                        
-                        if current_handedness == 0 and (len(last_pos_right) == 0):
-                            # Absolute position for wrist
-                            last_pos_right.append((origin_x, origin_y, origin_z))
-                            # Relative position for others
-                            last_pos_right.extend((pos.x-origin_x, pos.y-origin_y, pos.z-origin_z) for pos in landmark[1:])
-                            
-                        elif current_handedness == 1 and (len(last_pos_left) == 0):
-                            last_pos_left.append((origin_x, origin_y, origin_z))
-                            last_pos_left.extend((pos.x-origin_x, pos.y-origin_y, pos.z-origin_z) for pos in landmark[1:])
-                    
-                        # elif frame_index - first_frame > 0:                            
-                        #     if current_handedness == 0:
-                                
-                        
-                        # if current_handedness == 0: # right hand
-                        #     data.append(x_speed)
-                        #     data.append(y_speed)
-                        #     data.append(z_speed)
-                        # speed = get_speed(mp.framework.formats.landmark_pb2.NormalizedLandmark(x=last_x, y=last_y, z=last_z), landmark[0], 1/video_frame_rate)
-                        
-                        for i, pos in enumerate(landmark):
-                            try:
-                                # Relative to wrist (origin)
-                                rel_x = pos.x - origin_x
-                                rel_y = pos.y - origin_y
-                                rel_z = pos.z - origin_z
-                                
-                                if current_handedness == 0:
-                                    if i == 0:
-                                        speed_x = last_pos_right[i][0] - pos.x
-                                        speed_y = last_pos_right[i][1] - pos.y
-                                        speed_z = last_pos_right[i][2] - pos.z
-                                    else:
-                                        speed_x = last_pos_right[i][0] - rel_x
-                                        speed_y = last_pos_right[i][1] - rel_y
-                                        speed_z = last_pos_right[i][2] - rel_z
-                                    
-                                    last_pos_right[i] = (pos.x, pos.y, pos.z)
-                                
-                                elif current_handedness == 1:
-                                    if i == 0:
-                                        speed_x = last_pos_left[i][0] - pos.x
-                                        speed_y = last_pos_left[i][1] - pos.y
-                                        speed_z = last_pos_left[i][2] - pos.z
-                                    else:
-                                        speed_x = last_pos_left[i][0] - rel_x
-                                        speed_y = last_pos_left[i][1] - rel_y
-                                        speed_z = last_pos_left[i][2] - rel_z
-                                    
-                                    last_pos_left[i] = (pos.x, pos.y, pos.z)
-                                
-                                nodes.extend((rel_x, rel_y, rel_z, speed_x, speed_y, speed_z))
-                                extra_nodes.extend((0.0, 0.0, 0.0, 0.0, 0.0, 0.0))
-                            
-                            except:
-                                print("no data")
-                        
-                        # If there is only the left hand present in frame, we want placeholder frames for the right hand, which is before the left hand in our data
-                        if num_hands == 1 and current_handedness == 1:
-                            data.extend(extra_nodes)
-                            # gesture_data = pd.concat([gesture_data, pd.DataFrame([extra_nodes], columns=landmark_columns)])
-                        
-                        # Adding data of the current hand (either right or left or both right AND left)
-                        data.extend(nodes)
-                        # gesture_data = pd.concat([gesture_data, pd.DataFrame([nodes], columns=landmark_columns)])
 
-                        # If there is only the right hand present in frame, we want placeholder frames for the left hand, which is after the right hand in our data
-                        if num_hands == 1 and current_handedness == 0:
-                            data.extend(extra_nodes)
-                            # gesture_data = pd.concat([gesture_data, pd.DataFrame([extra_nodes], columns=landmark_columns)])
+            if not cap.isOpened():
+                raise ValueError(f"Could not open video: {video_path}")
+            if video_frame_rate <= 0:
+                cap.release()
+                raise ValueError(f"Video has an invalid frame rate: {video_path}")
 
-                        if is_first_frame_of_detection:
-                            is_first_frame_of_detection = False
-                    
-                    # After looped through both hands
-                    # print(len(landmark_columns), len(row))
-                    # print(row)
-                    if len(data) != 0:
-                        gesture_data = pd.concat([gesture_data, pd.DataFrame([data], columns=self.landmark_columns)])
-                    
-            # print("Done with video: ", row["path"])
-            
-            # os.makedirs(os.path.join(os.getcwd(), f"asl_citizen_gesture_data/raw_data/{rel_path}/"), exist_ok=True)
-            # gesture_data.to_csv(f"asl_citizen_gesture_data/raw_data/{rel_path}/{row['path']}.csv", index=False)
-            
-            return gesture_data
+            feature_builder = GestureFeatureBuilder()
+            rows = []
+
+            try:
+                for source_frame_index in range(int(total_frames)):
+                    cap.set(cv2.CAP_PROP_POS_FRAMES, source_frame_index)
+                    frame_read, frame = cap.read()
+                    if not frame_read:
+                        continue
+
+                    current_timestamp = int(
+                        (source_frame_index / video_frame_rate) * 1000
+                    )
+                    rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+                    mp_image = mp.Image(
+                        image_format=mp.ImageFormat.SRGB,
+                        data=rgb_frame,
+                    )
+                    result = landmarker.detect_for_video(
+                        mp_image, current_timestamp
+                    )
+
+                    if not result.hand_landmarks:
+                        continue
+
+                    hands = zip(result.handedness, result.hand_landmarks)
+                    rows.append(
+                        feature_builder.build_frame(
+                            hands,
+                            frame_index=len(rows),
+                            timestamp_ms=current_timestamp,
+                        )
+                    )
+            finally:
+                cap.release()
+
+            return pd.DataFrame(rows, columns=self.landmark_columns)
