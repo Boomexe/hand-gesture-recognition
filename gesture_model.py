@@ -299,6 +299,7 @@ def train_gesture_model(
     epochs: int = 150,
     patience: int = 15,
     learning_rate: float = 0.001,
+    name: str = "hand_gesture_modelv10"
 ) -> dict[str, list[float]]:
     model.to(device)
     criterion = nn.CrossEntropyLoss()
@@ -322,9 +323,12 @@ def train_gesture_model(
         for inputs, targets in train_batches:
             inputs = inputs.to(device, non_blocking=True)
             targets = targets.to(device, non_blocking=True)
+
             optimizer.zero_grad(set_to_none=True)
+
             logits = model(inputs)
             loss = criterion(logits, targets)
+
             loss.backward()
             nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
             optimizer.step()
@@ -336,9 +340,14 @@ def train_gesture_model(
 
         train_loss = total_loss / total_examples
         train_accuracy = total_correct / total_examples
+
         validation_loss, validation_accuracy, _, _ = evaluate_model(
-            model, validation_batches, device, criterion
+            model,
+            validation_batches,
+            device,
+            criterion,
         )
+
         history["loss"].append(train_loss)
         history["accuracy"].append(train_accuracy)
         history["val_loss"].append(validation_loss)
@@ -346,7 +355,8 @@ def train_gesture_model(
 
         print(
             f"Epoch {epoch:03d}: "
-            f"loss={train_loss:.4f}, accuracy={train_accuracy:.3f}, "
+            f"loss={train_loss:.4f}, "
+            f"accuracy={train_accuracy:.3f}, "
             f"val_loss={validation_loss:.4f}, "
             f"val_accuracy={validation_accuracy:.3f}"
         )
@@ -355,8 +365,22 @@ def train_gesture_model(
             best_validation_loss = validation_loss
             best_state = copy.deepcopy(model.state_dict())
             epochs_without_improvement = 0
+
+            save_gesture_checkpoint(
+                f"models/{name}_best.pt",
+                model,
+                metadata={
+                    "epoch": epoch,
+                    "validation_loss": validation_loss,
+                    "validation_accuracy": validation_accuracy,
+                },
+            )
+
+            print(f"Saved new best checkpoint at epoch {epoch}")
+
         else:
             epochs_without_improvement += 1
+
             if epochs_without_improvement >= patience:
                 print(f"Early stopping after epoch {epoch}")
                 break

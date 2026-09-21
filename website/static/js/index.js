@@ -34,13 +34,14 @@ socket.on("disconnect", () => {
 });
 
 socket.on("prediction", (data) => {
-  console.log("Prediction:", data);
+  // console.log("Prediction:", data);
 
   const output = document.getElementById("prediction");
 
   if (!output) return;
 
   if (data.status === "prediction" || data.status === "low_confidence") {
+    console.log(data.predicted_word);
     output.innerText = `${data.predicted_word} (${(data.confidence * 100).toFixed(1)}%)`;
   } else if (data.status === "warming_up") {
     output.innerText = `Warming up: ${data.frames}/${data.needed}`;

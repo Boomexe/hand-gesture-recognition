@@ -8,6 +8,29 @@ import pandas as pd
 
 from gesture_preprocessing import GestureFeatureBuilder
 
+from concurrent.futures import ProcessPoolExecutor
+import multiprocessing
+
+_worker_data_gen = None
+
+
+def init_worker(videos_path):
+    global _worker_data_gen
+    _worker_data_gen = DataGeneration(videos_path)
+
+
+def process_video_job(args):
+    global _worker_data_gen
+
+    video_path, csv_target = args
+
+    gesture_data = _worker_data_gen.generate(video_path)
+
+    os.makedirs(os.path.dirname(csv_target), exist_ok=True)
+    gesture_data.to_csv(csv_target, index=False)
+
+    return video_path
+
 class DataGeneration:
     def __init__(self, videos_path):
         self.videos_path = videos_path
@@ -56,7 +79,10 @@ class DataGeneration:
         self.landmark_columns.insert(1, 'right_present')
         self.landmark_columns.insert(2, 'left_present')
 
-        self.target_words = [
+        self.has_set_target_words = False
+        self.target_words = []
+        
+        self.original_target_words = [
             "CLOSEEYES",
             "EYES",
             "HELLO",
@@ -71,6 +97,10 @@ class DataGeneration:
             "TWOMORE",
             "YES",
         ]
+        
+    def set_target_words(self, target_words):
+        self.target_words = target_words
+        self.has_set_target_words = True
     
     def normalize(self, landmark):
         pass
@@ -89,33 +119,63 @@ class DataGeneration:
         
         return speed
     
-    def generate_from_dataset(self, csv, rel_path, limit_count=False):
+    def generate_from_dataset(self, csv, rel_path, skip_already_generated, use_target_words_only, max_workers=10, limit_count=False):
+        if use_target_words_only and not self.has_set_target_words:
+            raise ValueError("Target words have not been set but use_target_words_only is True")
+        
+        if use_target_words_only:
+            target_words = {word.casefold() for word in self.target_words}
+        
+        else:
+            target_words = None
+            
+        jobs = []
+        
         count = 0
-        for i, row in csv.iterrows():
+        for row in csv.itertuples(index=False):
             label = "".join(
                 character
-                for character in str(row.get("gloss", ""))
+                for character in str(row.gloss)
                 if character.isalnum()
             ).casefold()
-            target_words = {word.casefold() for word in self.target_words}
-            if label not in target_words:
+            
+            if use_target_words_only and label not in target_words:
+                continue
+                
+            video_path = os.path.join(self.videos_path, row.path)
+            
+            csv_target = f"asl_citizen_gesture_data/raw_data/{rel_path}/{row.path}.csv"
+            
+            if skip_already_generated and os.path.exists(csv_target):
                 continue
             
-            # if row['path'] != "4324249049090094-EYES.mp4":
-            #     continue
+            jobs.append((video_path, csv_target))
             
-            video_path = os.path.join(self.videos_path, row["path"])
-            gesture_data = self.generate(video_path)
-            
-            print("Done with video: ", row["path"])
-    
-            os.makedirs(os.path.join(os.getcwd(), f"asl_citizen_gesture_data/raw_data/{rel_path}/"), exist_ok=True)
-            gesture_data.to_csv(f"asl_citizen_gesture_data/raw_data/{rel_path}/{row['path']}.csv", index=False)
-            
-            count += 1
-    
-            if count > 5 and limit_count:
+            if limit_count and len(jobs) >= 6:
                 break
+            
+        print(f"Processing {len(jobs)} videos with {max_workers} workers")
+        
+        with ProcessPoolExecutor(
+            max_workers=max_workers,
+            initializer=init_worker,
+            initargs=(self.videos_path,),
+        ) as executor:
+            for count, video_path in enumerate(executor.map(process_video_job, jobs), start=1):
+                if count % 5 == 0:
+                    print(f"Processed {count}/{len(jobs)}")
+            
+            # gesture_data = self.generate(video_path)
+            
+            # print("Done with video: ", row["path"])
+    
+            # os.makedirs(os.path.join(os.getcwd(), f"asl_citizen_gesture_data/raw_data/{rel_path}/"), exist_ok=True)
+            # gesture_data.to_csv(f"asl_citizen_gesture_data/raw_data/{rel_path}/{row['path']}.csv", index=False)
+            
+            # count += 1
+    
+            # if count > 5 and limit_count:
+            #     break
     
     # Read a video and generate one row for each frame containing a detected hand.
     def generate(self, video_path):
@@ -135,10 +195,10 @@ class DataGeneration:
 
             try:
                 for source_frame_index in range(int(total_frames)):
-                    cap.set(cv2.CAP_PROP_POS_FRAMES, source_frame_index)
+                    # cap.set(cv2.CAP_PROP_POS_FRAMES, source_frame_index)
                     frame_read, frame = cap.read()
                     if not frame_read:
-                        continue
+                        break
 
                     current_timestamp = int(
                         (source_frame_index / video_frame_rate) * 1000
@@ -167,3 +227,17 @@ class DataGeneration:
                 cap.release()
 
             return pd.DataFrame(rows, columns=self.landmark_columns)
+
+    def get_dictionary(self, csv):
+        unique_words = set()
+        
+        for i, row in csv.iterrows():
+            label = "".join(
+                character
+                for character in str(row.get("gloss", ""))
+                if character.isalnum()
+            ).casefold()
+            
+            unique_words.add(label)
+        return list(unique_words)
+            

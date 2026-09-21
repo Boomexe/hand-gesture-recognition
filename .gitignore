@@ -2,3 +2,5 @@
 **/__pycache__/**
 /models/
 /website/models/
+
+/asl_citizen_gesture_data/

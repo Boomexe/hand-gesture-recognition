@@ -12,6 +12,8 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
 <body>
+  <a href="/by-video">By Video</a>
+  <a href="/by-video-continuous">By Video Continuous</a>
   <h1>Hand landmark detection using the MediaPipe HandLandmarker task</h1>
 
   <section id="demos" class="invisible">
@@ -35,7 +37,7 @@
       </button>
       <div id="prediction">No prediction yet</div>
       <div style="position: relative;">
-        <video id="webcam" style="position: abso" autoplay playsinline></video>
+        <video id="webcam" style="position: absolute" autoplay playsinline></video>
         <canvas class="output_canvas" id="output_canvas" style="position: absolute; left: 0px; top: 0px;"></canvas>
       </div>
     </div>

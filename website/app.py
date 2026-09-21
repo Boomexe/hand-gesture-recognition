@@ -29,7 +29,7 @@ socketio = SocketIO(app, cors_allowed_origins="*")
 with (WEBSITE_ROOT / "parameters.json").open("r", encoding="utf-8") as file:
     parameters = json.load(file)
 
-model_file = parameters.get("model_file", "hand_gesture_modelv10.pt")
+model_file = parameters.get("model_file", "hand_gesture_modelv10_full_dictionary.pt")
 model_path = WEBSITE_ROOT / "models" / model_file
 model_device = select_device()
 if model_path.exists() and model_path.suffix == ".pt":
@@ -166,7 +166,6 @@ def home():
 def video():
     return render_template("by-video.html")
 
-
 @app.route("/upload-video", methods=["POST"])
 def upload_video():
     if "video" not in flask.request.files:
@@ -188,6 +187,39 @@ def upload_video():
             "error": str(error),
         }, 500
 
+@app.route("/by-video-continuous")
+def video_continuous():
+    return render_template("by-video-continuous.html")
+
+@app.route("/upload-video-continuous", methods=["POST"])
+def upload_video_continuous():
+    if "video" not in flask.request.files:
+        return {"message": "No video file uploaded"}, 400
+
+    uploads_path = WEBSITE_ROOT / "uploads"
+    uploads_path.mkdir(exist_ok=True)
+    video_path = uploads_path / "uploaded_video.mp4"
+    flask.request.files["video"].save(video_path)
+    all_frames = preprocess_video_from_upload(video_path)
+    
+    results = []
+    
+    for i in range(len(all_frames[0]) - 1):        
+        try:
+            print(all_frames[0].shape, i)
+            result = prediction_result(np.array([all_frames[0][:i+1]]))
+            results.append(result)
+            
+        except Exception as error:
+            print("Prediction error:", error)
+            return {
+                "message": "Prediction failed",
+                "error": str(error),
+            }, 500
+    
+    out_results = [{"pred_word": result["predicted_word"], "confidence": result["confidence"], "frame": i} for i, result in enumerate(results)]
+    return out_results, 200
+
 
 @socketio.on("landmark_data")
 def handle_live_landmarks(data):
@@ -204,7 +236,8 @@ def handle_live_landmarks(data):
                 MAX_LIVE_FRAMES is None
                 or len(state.frames) < int(MAX_LIVE_FRAMES)
             ):
-                hands = zip(handednesses, landmarks)
+                # NOTE: I reversed the handedness. it works now.
+                hands = zip(reversed(handednesses), landmarks)
                 frame = state.feature_builder.build_frame(
                     hands,
                     frame_index=len(state.frames),
