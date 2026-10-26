@@ -3,6 +3,7 @@ import os
 import sys
 from dataclasses import dataclass, field
 from pathlib import Path
+from tempfile import TemporaryDirectory
 
 import flask
 import numpy as np
@@ -24,12 +25,14 @@ from gesture_preprocessing import (
 )
 
 app = flask.Flask(__name__)
+# Allow a 100 MiB video plus multipart form overhead.
+app.config["MAX_CONTENT_LENGTH"] = 101 * 1024 * 1024
 socketio = SocketIO(app, cors_allowed_origins="*")
 
 with (WEBSITE_ROOT / "parameters.json").open("r", encoding="utf-8") as file:
     parameters = json.load(file)
 
-model_file = parameters.get("model_file", "hand_gesture_modelv10_full_dictionary.pt")
+model_file = parameters.get("model_file", "hand_gesture_modelv11_fifty_words.pt")
 model_path = WEBSITE_ROOT / "models" / model_file
 model_device = select_device()
 if model_path.exists() and model_path.suffix == ".pt":
@@ -159,66 +162,75 @@ def emit_prediction_for_frames(frames: list[list[float]], final: bool) -> None:
 
 @app.route("/")
 def home():
-    return render_template("index.html")
+    return render_template("index.html", page="live")
+
+
+@app.context_processor
+def website_config():
+    return {"app_config": {
+        "words": sorted(set(words.values())),
+        "modelReady": model is not None,
+        "confidenceThreshold": THRESHOLD,
+    }}
+
+
+@app.errorhandler(413)
+def upload_too_large(error):
+    return {"message": "The upload is too large. Choose a video under 100 MB."}, 413
+
+
+@app.route("/library")
+def library():
+    return render_template("library.html", page="library")
 
 
 @app.route("/by-video")
 def video():
-    return render_template("by-video.html")
+    return render_template("video.html", page="video", continuous=False)
 
 @app.route("/upload-video", methods=["POST"])
 def upload_video():
-    if "video" not in flask.request.files:
-        return {"message": "No video file uploaded"}, 400
-
-    uploads_path = WEBSITE_ROOT / "uploads"
-    uploads_path.mkdir(exist_ok=True)
-    video_path = uploads_path / "uploaded_video.mp4"
-    flask.request.files["video"].save(video_path)
-
-    try:
-        model_input = preprocess_video_from_upload(video_path)
-        result = prediction_result(model_input)
-        return result, 200
-    except Exception as error:
-        print("Prediction error:", error)
-        return {
-            "message": "Prediction failed",
-            "error": str(error),
-        }, 500
+    return analyze_uploaded_video(continuous=False)
 
 @app.route("/by-video-continuous")
 def video_continuous():
-    return render_template("by-video-continuous.html")
+    return render_template("video.html", page="video", continuous=True)
 
 @app.route("/upload-video-continuous", methods=["POST"])
 def upload_video_continuous():
-    if "video" not in flask.request.files:
-        return {"message": "No video file uploaded"}, 400
+    return analyze_uploaded_video(continuous=True)
 
+
+def analyze_uploaded_video(continuous: bool):
+    video_file = request.files.get("video")
+    if video_file is None or not video_file.filename:
+        return {"message": "No video file uploaded"}, 400
+    if model is None:
+        return {"message": "The recognition model is unavailable."}, 503
     uploads_path = WEBSITE_ROOT / "uploads"
     uploads_path.mkdir(exist_ok=True)
-    video_path = uploads_path / "uploaded_video.mp4"
-    flask.request.files["video"].save(video_path)
-    all_frames = preprocess_video_from_upload(video_path)
-    
-    results = []
-    
-    for i in range(len(all_frames[0]) - 1):        
-        try:
-            print(all_frames[0].shape, i)
-            result = prediction_result(np.array([all_frames[0][:i+1]]))
-            results.append(result)
-            
-        except Exception as error:
-            print("Prediction error:", error)
-            return {
-                "message": "Prediction failed",
-                "error": str(error),
-            }, 500
-    
-    out_results = [{"pred_word": result["predicted_word"], "confidence": result["confidence"], "frame": i} for i, result in enumerate(results)]
-    return out_results, 200
+    try:
+        # Isolate requests and remove the uploaded clip after analysis.
+        # The existing landmark/debug CSV behavior is unchanged.
+        with TemporaryDirectory(prefix="clip_", dir=uploads_path) as upload_dir:
+            video_path = Path(upload_dir) / "video.mp4"
+            video_file.save(video_path)
+            model_input = preprocess_video_from_upload(video_path)
+            if not continuous:
+                return prediction_result(model_input), 200
+            results = []
+            # Include the final detected frame: the last result is the full gesture.
+            for i in range(model_input.shape[1]):
+                result = prediction_result(model_input[:, :i + 1])
+                results.append({
+                    "pred_word": result["predicted_word"],
+                    "confidence": result["confidence"],
+                    "frame": i,
+                })
+            return results, 200
+    except Exception as error:
+        app.logger.exception("Video prediction failed")
+        return {"message": "Prediction failed", "error": str(error)}, 500
 
 
 @socketio.on("landmark_data")

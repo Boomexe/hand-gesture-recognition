@@ -1,0 +1,8 @@
+{% from '_icons.html' import icon %}
+<section class="recognition-card card" aria-labelledby="recognition-title">
+  <div class="card-heading"><h2 id="recognition-title">Recognition</h2><span id="prediction-phase" class="small-badge">Waiting</span></div>
+  <div class="recognition-main" aria-live="polite" aria-atomic="true"><span id="recognition-symbol" class="recognition-symbol">{{ icon('hand') }}</span><p id="prediction-caption" class="result-caption">Prediction</p><div id="prediction" class="predicted-word">Waiting for<br> a gesture.</div><p id="prediction-hint"></p></div>
+  <div class="confidence"><div class="confidence-label"><span>Model confidence</span><strong id="confidence-value">—</strong></div><div id="confidence-track" class="confidence-track" role="progressbar" aria-label="Model confidence" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="confidence-fill"></div></div><p id="confidence-note">Waiting for a gesture</p></div>
+  <div id="alternatives" class="alternative-results" hidden><h3>Other possibilities</h3><div id="alternative-list"></div></div>
+  <div class="recognition-footer">{{ icon('points') }}<span id="capture-detail">Waiting for input</span><span class="recognition-pulse"></span></div>
+</section>

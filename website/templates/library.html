@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% from '_icons.html' import icon %}
+{% block title %}Gesture library{% endblock %}
+{% block content %}
+<header class="page-intro"><h1>Gesture library</h1></header>
+<div class="library-toolbar"><label class="search-field">{{ icon('search') }}<input id="gesture-search" type="search" placeholder="Find a gesture…" aria-label="Search gestures"><kbd>/</kbd></label><span id="library-count">{{ app_config.words|length }} gestures</span></div>
+<div class="library-filters" role="group" aria-label="Filter gestures"><button class="filter-chip active" data-category="all" aria-pressed="true">All gestures</button><button class="filter-chip" data-category="everyday" aria-pressed="false">Everyday</button><button class="filter-chip" data-category="people" aria-pressed="false">People</button><button class="filter-chip" data-category="questions" aria-pressed="false">Questions</button></div>
+<div id="gesture-grid" class="gesture-grid">{% for word in app_config.words %}<a class="gesture-tile card" data-word="{{ word }}" href="{{ url_for('home') }}?practice={{ word|urlencode }}"><span class="gesture-tile-icon">{{ icon('hand') }}</span><span class="gesture-tile-name" data-format-word="{{ word }}">{{ word }}</span><span class="gesture-tile-action">Try it {{ icon('up-right') }}</span></a>{% endfor %}</div>
+<section id="library-empty" class="library-empty card" hidden>{{ icon('search') }}<h2>No matching gestures.</h2><p>Try another word or clear your filters.</p><button id="reset-search" class="button secondary">Clear search</button></section><p class="library-note">These are the model's supported labels, not signing instructions or a complete sign-language dictionary.</p>
+{% endblock %}
+{% block scripts %}<script type="module" src="{{ url_for('static', filename='js/library.js') }}"></script>{% endblock %}

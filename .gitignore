@@ -4,3 +4,7 @@
 /website/models/
 
 /asl_citizen_gesture_data/
+
+# Generated experiment artifacts and local merge recovery copies
+/experiments/results/
+/merge_backups/

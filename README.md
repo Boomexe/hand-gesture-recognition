@@ -29,6 +29,9 @@ The previous TensorFlow notebook is preserved as
 
 ## Website
 
+The redesigned **Signbridge** interface and demo-recording checklist are documented
+in [WEBSITE_REDESIGN.md](WEBSITE_REDESIGN.md). No retraining is needed for the UI update.
+
 After saving model v10:
 
 ```powershell

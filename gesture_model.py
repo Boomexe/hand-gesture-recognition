@@ -299,7 +299,7 @@ def train_gesture_model(
     epochs: int = 150,
     patience: int = 15,
     learning_rate: float = 0.001,
-    name: str = "hand_gesture_modelv10"
+    name: str = "hand_gesture_modelv11"
 ) -> dict[str, list[float]]:
     model.to(device)
     criterion = nn.CrossEntropyLoss()

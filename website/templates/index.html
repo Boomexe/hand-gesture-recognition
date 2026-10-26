@@ -1,48 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
-<script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-
-<body>
-  <a href="/by-video">By Video</a>
-  <a href="/by-video-continuous">By Video Continuous</a>
-  <h1>Hand landmark detection using the MediaPipe HandLandmarker task</h1>
-
-  <section id="demos" class="invisible">
-    <h2>Demo: Detecting Images</h2>
-    <p><b>Click on an image below</b> to see the key landmarks of the hands.</p>
-
-    <!-- <div class="detectOnClick">
-      <img src="https://assets.codepen.io/9177687/hand-ge4ca13f5d_1920.jpg" width="100%" crossorigin="anonymous" title="Click to get detection!" />
+{% extends 'base.html' %}
+{% from '_icons.html' import icon %}
+{% block content %}
+<header class="page-intro"><h1>Live studio</h1></header>
+<div class="studio-grid">
+  <section class="camera-card card" aria-labelledby="camera-title">
+    <div class="card-heading"><h2 id="camera-title">Your camera</h2><span id="camera-state" class="camera-state"><span class="status-dot"></span><span>Camera off</span></span></div>
+    <div id="camera-stage" class="camera-stage"><div class="camera-grid"></div><video id="webcam" autoplay muted playsinline class="mirrored"></video><canvas id="output_canvas" class="mirrored" aria-hidden="true"></canvas><div class="camera-topline"><span class="view-label">{{ icon('camera') }} Live view</span><span id="frame-rate" hidden></span></div>
+      <div id="camera-empty" class="camera-empty"><div class="hand-illustration"><span class="illustration-ring ring-one"></span><span class="illustration-ring ring-two"></span><img src="{{ url_for('static', filename='hand-outline.svg') }}" alt="" width="106" height="132"></div><button id="camera-empty-button" class="button light">{{ icon('camera') }} Turn on camera</button><span class="permission-note">You'll be asked for camera access</span></div>
+      <div id="camera-guidance" hidden><span class="guide-corner tl"></span><span class="guide-corner tr"></span><span class="guide-corner bl"></span><span class="guide-corner br"></span><span id="guidance-label">Bring your hands into view</span></div>
+      <div id="camera-error" class="camera-error" role="alert" hidden></div>
     </div>
-    <div class="detectOnClick">
-      <img src="https://assets.codepen.io/9177687/couple-gb7cb5db4c_1920.jpg" width="100%" crossorigin="anonymous" title="Click to get detection!" />
-    </div> -->
-
-    <h2>Demo: Webcam continuous hands landmarks detection</h2>
-    <p>Hold your hand in front of your webcam to get real-time hand landmarker detection.</br>Click <b>enable webcam</b> below and grant access to the webcam if prompted.</p>
-
-    <div id="liveView" class="videoView">
-      <button id="webcamButton" class="mdc-button mdc-button--raised">
-        <span class="mdc-button__ripple"></span>
-        <span class="mdc-button__label">ENABLE WEBCAM</span>
-      </button>
-      <div id="prediction">No prediction yet</div>
-      <div style="position: relative;">
-        <video id="webcam" style="position: absolute" autoplay playsinline></video>
-        <canvas class="output_canvas" id="output_canvas" style="position: absolute; left: 0px; top: 0px;"></canvas>
-      </div>
-    </div>
+    <div class="camera-settings"><span class="device-label">{{ icon('camera') }}<span id="camera-device">Default camera</span></span><div class="camera-tools"><button id="landmark-toggle" class="tool-button selected" aria-pressed="true" title="Show hand landmarks">{{ icon('points') }}<span>Landmarks</span></button><button id="mirror-toggle" class="tool-button selected" aria-pressed="true" title="Mirror the preview">{{ icon('mirror') }}<span>Mirror</span></button><button id="fullscreen-button" class="icon-button" aria-label="Expand camera">{{ icon('expand') }}</button></div></div>
+    <div class="camera-actions"><button id="webcamButton" class="button primary">{{ icon('camera') }}<span id="camera-button-label">Turn on camera</span></button><button id="reset-capture" class="button secondary" disabled>{{ icon('refresh') }} Reset</button><span class="local-note">{{ icon('shield') }} No video sent</span></div>
   </section>
-  <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
-  <script src="{{ url_for('static', filename='js/index.js') }}" type="module"></script>
-  </body>
-</html>
+  {% include '_prediction.html' %}
+</div>
+<div class="below-studio"><section class="practice-card card"><div class="practice-heading"><span class="practice-icon">{{ icon('hand') }}</span><h2>Practice</h2></div><div class="practice-words">{% for word in ['HELLO','MORE','THANKYOU','YES'] %}{% if word in app_config.words %}<button class="practice-chip" data-practice="{{ word }}" aria-pressed="false" data-format-word="{{ word }}">{{ word }}</button>{% endif %}{% endfor %}</div><div class="practice-bottom"><p id="practice-target" hidden></p><a href="{{ url_for('library') }}">All {{ app_config.words|length }} gestures {{ icon('arrow') }}</a></div></section>
+<section class="session-card card"><div class="card-heading"><h2>This session <span id="session-count" class="count-badge">0</span></h2><div class="session-actions"><button id="copy-session" class="icon-button" aria-label="Copy session words" disabled>{{ icon('copy') }}</button><button id="clear-session" class="icon-button" aria-label="Clear session words" disabled>{{ icon('trash') }}</button></div></div><p id="session-empty" class="session-empty">Finished gestures will collect here.</p><ol id="session-list" class="session-list"></ol></section></div>
+{% endblock %}
+{% block scripts %}<script src="https://cdn.socket.io/4.5.4/socket.io.min.js" defer></script><script src="{{ url_for('static', filename='js/index.js') }}" type="module"></script>{% endblock %}
